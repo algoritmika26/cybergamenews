@@ -2,6 +2,8 @@ const express = require('express');
 const server = express();
 const port = 3000;
 
+server.use(express.static('files'))
+
 // Это главная страница сайта
 server.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html")
@@ -21,7 +23,18 @@ server.get("/code-vein", (req, res) => {
 server.get("/igra-witcher3", (req, res) => {
   res.sendFile(__dirname + "/witcher3.html")
 })
-
+// Это страница metro-exodus
+server.get("/metro-exodus", (req, res) => {
+  res.sendFile(__dirname + "/metro_exodus.html")
+})
+// Это страница идей и предложений, мб попозжа!)
+server.get("/ideas-mail", (req, res) => {
+  res.sendFile(__dirname + "/mail.html")
+})
+// Это страница (придумаю потом)
+server.get("/LoL", (req, res) => {
+  res.sendFile(__dirname + "/LoL.html")
+})
 server.listen(port, () => console.log('Сервер запущен'));
 
 
