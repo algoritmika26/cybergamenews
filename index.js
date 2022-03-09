@@ -35,7 +35,10 @@ server.get("/ideas-mail", (req, res) => {
 server.get("/LoL", (req, res) => {
   res.sendFile(__dirname + "/LoL.html")
 })
+
+server.get("/csgo, (req, res) => {
+  res.sendFile(__dirname + "/csgo.html")
+})
+
 server.listen(port, () => console.log('Сервер запущен'));
-
-
 
