@@ -54,5 +54,9 @@ server.get("/warcraft-igra-novostyi-blizzard-entertainment", (req, res) => {
   res.sendFile(__dirname + "/warcraft_test.html")
 })
 
+server.get("/windbound", (req, res) => {
+  res.sendFile(__dirname + "/windbound.html")
+})
+
 server.listen(port, () => console.log('Сервер запущен'));
 
