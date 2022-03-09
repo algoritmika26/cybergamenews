@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <title>CGN - WarCraft</title>
+    <style type="text/css">
+        #myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+        #myBtn {
+            width: 200px;
+            font-size: 18px;
+            padding: 10px;
+            border: none;
+            background: rgb(255, 253, 253);
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+        }
+        
+        #myBtn:hover {
+            background: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+
+      .intro__media {
+        position: relative;
+        overflow: hidden;
+        object-fit: cover;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: transparent;
+      }
+      .ytplayer-container {
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: block;
+        height: 0;
+        width: 100%;
+        padding: 0;
+        padding-bottom: 56.25%;
+      }
+       
+      .ytplayer-player {
+        height: calc(100% + 250px) !important;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        pointer-events: none;
+        margin-top: -125px;
+      }
+      .bg-image-cover {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        background: #444 url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fru.wikipedia.org%2Fwiki%2FWorld_of_Warcraft&psig=AOvVaw0rF_gZCqfTAXNr4Oq-Ltx2&ust=1646323891459000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCODM6cPop_YCFQAAAAAdAAAAABAD);
+      }
+      
+      p {
+        position: relative;
+        z-index: 2;
+        }
+        </style>
+</head>
+<body>
+
+    <!-- The video -->
+<video autoplay muted loop id="myVideo">
+    <source src="/videoplayback.mp4" type="video/mp4">
+  </video>
+  
+
+    <div class="container">
+            <!-- ШАПКА -->
+            <div class="row">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">CyberGameNews</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Главная</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Обзоры игр</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Скидки</a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>  
+            <script>
+                // Get the video
+                var video = document.getElementById("myVideo");
+                
+                // Get the button
+                var btn = document.getElementById("myBtn");
+                
+                // Pause and play the video, and change the button text
+                function myFunction() {
+                    if (video.paused) {
+                        video.play();
+                        btn.innerHTML = "Пауза";
+                    } else {
+                        video.pause();
+                        btn.innerHTML = "Начать";
+                    }
+                }
+                </script>  
+        
+
+            
+            <!-- Optional: some overlay text to describe the video -->
+            <div class="content">
+                <h1>Heading</h1>
+                <p>Новое обновление "Конец Вечности"!</p>
+                <!-- Use a button to pause/play the video with JavaScript -->
+                <button id="myBtn" onclick="myFunction()">Пауза</button>
+            </div>
+            <div class="row">
+                <div class="col-9">Основной блок</div>
+                <div class="col-3">Боковой блок</div>
+            </div>
+
+    
+        <div class="container">
+            <footer class="text-center">Все права не защищены никем. 2022г.
+            </footer>
+        </div>
+    </div>
+    <script>
+        // Get the video
+        var video = document.getElementById("myVideo");
+        
+        // Get the button
+        var btn = document.getElementById("myBtn");
+        
+        // Pause and play the video, and change the button text
+        function myFunction() {
+            if (video.paused) {
+                video.play();
+                btn.innerHTML = "Pause";
+            } else {
+                video.pause();
+                btn.innerHTML = "Play";
+            }
+        }
+        </script>
+</body>
+</html>

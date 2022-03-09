@@ -3,10 +3,19 @@ const server = express();
 const port = 3000;
 
 server.use(express.static('files'))
-
 // Это главная страница сайта
 server.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html")
+})
+
+// не главная страница
+server.get("/braethedge", (req, res) => {
+  res.sendFile(__dirname + "/breathedge.html")
+})
+
+// Это обработчик страницы game_test.html
+server.get("/test_game", (req, res) => {
+  res.sendFile(__dirname + "/test_game.html")
 })
 
 // Это обработчик страницы cyberpunk_2077.html
@@ -35,7 +44,10 @@ server.get("/ideas-mail", (req, res) => {
 server.get("/LoL", (req, res) => {
   res.sendFile(__dirname + "/LoL.html")
 })
+
+server.get("/csgo", (req, res) => {
+  res.sendFile(__dirname + "/csgo.html")
+})
+
 server.listen(port, () => console.log('Сервер запущен'));
-
-
 
