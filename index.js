@@ -38,4 +38,6 @@ server.get("/LoL", (req, res) => {
 server.listen(port, () => console.log('Сервер запущен'));
 
 
-
+server.get("/csgo, (req, res) => {
+  res.sendFile(__dirname + "/csgo.html")
+})
