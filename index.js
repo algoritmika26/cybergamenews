@@ -41,7 +41,7 @@ server.get("/LoL", (req, res) => {
   res.sendFile(__dirname + "/LoL.html")
 })
 
-server.get("/csgo, (req, res) => {
+server.get("/csgo", (req, res) => {
   res.sendFile(__dirname + "/csgo.html")
 })
 
