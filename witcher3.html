@@ -6,6 +6,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>Witcher 3</title> 
+    <style>
+        .radius-small {
+          border-radius: 20px;
+          margin-top: 30px;
+        }
+        body{
+            background-color: #333333;
+            color: white;
+        }
+        h5 {
+            text-align: center;
+        }
+      </style>
 </head>
 <body>
     <div class="container">
@@ -35,33 +48,71 @@
         </div>
         <!--Основной контент-->
     <div class="row">
+        <div class="col-2">
+            
+        </div>
+        <!--Слайдер-->
+        <div class="col-8">
             <h1>Словом и сталью. Обзор игры «Ведьмак 3: Дикая Охота»</h1>
             <div class="text-center" style="margin-bottom: 30px;">
-                <img src="https://cybersport.metaratings.ru/upload/iblock/929/92939ed8917aa1ba8852e623d454901e.jpeg" weight="650" height="500" alt="Словом и сталью. Обзор игры «Ведьмак 3: Дикая Охота»">
+                <img src="https://cybersport.metaratings.ru/upload/iblock/929/92939ed8917aa1ba8852e623d454901e.jpeg" class="img-thumbnail" weight="650" height="500" alt="Словом и сталью. Обзор игры «Ведьмак 3: Дикая Охота»">
             </div>
-            <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus sit debitis facere? Adipisci a dolor sit ullam porro voluptates ea obcaecati sunt, libero sed enim esse! Magnam consequuntur officia quibusdam.</h3>
-            <!--Слайдер-->
-            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active" data-bs-interval="10000">
-                    <img src="https://fakeimg.pl/1000x300/?text=Game1&font=lobster" class="d-block w-100" alt="...">
-                  </div>
-                  <div class="carousel-item" data-bs-interval="2000">
-                    <img src="https://fakeimg.pl/1000x300/?text=Game1&font=lobster" class="d-block w-100" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="https://fakeimg.pl/1000x300/?text=Game1&font=lobster" class="d-block w-100" alt="...">
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"  data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Предыдущий</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"  data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Следующий</span>
-                </button>
+            <p>The Witcher 3: Wild Hunt — заключительная часть трилогии приключений ведьмака Геральта. Действие игры разворачивается спустя небольшой промежуток времени после событий второй части. Нильфгаард благополучно завоевал Темерию и планирует подмять под себя остальные северные земли. Тем временем знаменитый ведьмак Геральт из Ривии и его мудрый наставник Весемир нападают на след пропавшей чародейки Йеннифэр, по совместительству являющейся давней возлюбленной Белого Волка. Вас ожидает насыщенный приключениями игровой мир, блестящий сюжет, отличная боевая система, потрясающая картинка, нелинейность и уютная атмосфера.</p>
+            <br>
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://images.stopgame.ru/screenshots/13092/witcher_3_wild_hunt-42.jpg" class="d-block w-100" alt="...">
               </div>
+              <div class="carousel-item">
+                <img src="https://images.stopgame.ru/screenshots/13092/witcher_3_wild_hunt-39.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="https://vgtimes.ru/uploads/gallery/main/1283/9w3nf0g5e8m.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="https://vgtimes.ru/uploads/gallery/main/1283/1377086534-1.jpg" class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Предыдущий</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Следующий</span>
+            </button>
+            </div>
+            <br>
+            <h5>Ниже представлены релизный трейлер и 15 минутный геймплей</h5>
+
+        </div>
+
+        <div class="col-6">
+            <iframe width="570" height="315" src="https://www.youtube.com/embed/1-l29HlKkXU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="col-6">
+            <iframe width="570" height="315" src="https://www.youtube.com/embed/McI_PbjqWsg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="col-8">
+            <div class="text-centre">
+                <h3 style="margin-top: 20px; margin-bottom: 20px;">
+                    Жанр и геймплей
+                </h3>
+                <p>Ролевая игра в масштабном фэнтезийном мире Witcher 3: Wild Hunt вышла для PC, PS4 и Xbox One 19 мая 2015 года, является продолжением The Witcher и Witcher 2: Assassins of Kings и завершила трилогию о Геральте из Ривии.</p> 
+                <p>С выходом Witcher 3 CD Project задала новые стандарты жанра, получила всемирное признание и любовь фанатов. При создании игры автор серии романов «Ведьмак», Анджей Сапковский, консультировал разработчиков.</p> 
+                <p>Студийный движок REDengine 3 радует качественной мультиплатформенной графикой, динамической сменой погоды. Впервые в серии созданы высокополигональные модели главных героев, проработанные модели и анимации чудовищ. Технологии Nvidia применены при создании травы, теней от объектов, волос, шерсти и ткани.</p>
+            </div>
+        </div>
+
+        <div class="col-2">
+        </div>   
     </div>
     <div class="container">
         <footer class="py-3 my-4">
