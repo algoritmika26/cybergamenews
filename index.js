@@ -49,5 +49,10 @@ server.get("/csgo", (req, res) => {
   res.sendFile(__dirname + "/csgo.html")
 })
 
+// Это обработчик страницы warcraft_test.html
+server.get("/warcraft-igra-novostyi-blizzard-entertainment", (req, res) => {
+  res.sendFile(__dirname + "/warcraft_test.html")
+})
+
 server.listen(port, () => console.log('Сервер запущен'));
 
