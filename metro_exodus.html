@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>CyberGameNews | Metro Exodus</title>
@@ -10,19 +14,20 @@
       .info{
         font-family: cursive;
       }
-      .description-name{
-        font: 14px cursive;
+      /* .description-name{ */
+        /* font: 14px cursive;
         /* font-family: 11px cursive; */
-      }
-      .sujet{
+      /* .sujet{
         display: none;
-      }
+      } */
       details {
-    border: 1px solid #aaa;
+    border: 1px solid rgb(255, 0, 0);
     border-radius: 4px;
     padding: .5em .5em 0;
     }
-
+    details summary::marker {
+        content: "";
+        }
     summary {
         font-weight: bold;
         margin: -.5em -.5em 0;
@@ -34,21 +39,28 @@
     }
 
     details[open] summary {
-        border-bottom: 1px solid #aaa;
+        border-bottom: 1px solid rgb(255, 0, 0);
         margin-bottom: .5em;
     }
-
+    .description-name {
+      font-size: 16px;
+      font-family: 'Montserrat', sans-serif;
+      text-decoration: none;
+        }
+      a{
+        color: white;
+      }
+      a:hover{
+        color: rgb(236, 156, 156);
+      }
     </style>
 </head>
 <body class="bg-dark">
-  <div class="text-white sujet">
-    <h1>Сюжет тута</h1>
-  </div>
  <div class="container">
     <div class="row">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 1%;" >
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">CyberGameNews</a>
+              <a class="navbar-brand" href="/"><img class="img-fluid" src="https://i.imgur.com/RqS0jBO.png" width="100" height="40" alt=""></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -68,7 +80,7 @@
             </div>
         </nav>
     </div>
-
+    <hr style="height: 2px; color: rgb(255, 0, 0);">
     <div class="row text-white">
         <div class="col-9">
             <div id="carouselExampleCaptions" class="carousel slide border border-danger" data-bs-ride="carousel">
@@ -79,11 +91,16 @@
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="7" aria-label="Slide 8"></button>
                 </div>
 
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <iframe width="964" height="541" src="https://www.youtube.com/embed/fbbqlvuovQ0" class="d-block w-100 border border-danger"title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  </div>
+                  <div class="carousel-item">
+                    <iframe width="964" height="541" src="https://www.youtube.com/embed/hizUN-hX16I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
                   <div class="carousel-item">
                     <img src="https://i.imgur.com/UB1p7u8.png" class="border border-danger d-block w-100" alt="...">
@@ -110,11 +127,13 @@
                   <span class="visually-hidden">Next</span>
                 </button>
             </div>
+            <hr style="height: 2px; color: rgb(255, 0, 0);">
             <h2 class="description-name mt-4"><b>Подробнее:</b></h2>
             <h4 class="description-name"> Действия проходят на постапокалиптических пустошах территории Российской Федерации и в Республике Казахстан, где игрок должен справляться с новыми опасностями мира и участвовать в борьбе против мутировавших существ, а также враждебно настроенных людей. Игрок владеет арсеналом огнестрельного и метательного оружия, которое может быть улучшено(из модификаций можно настроить все части оружия, начиная от ресивера и заканчивая стволом). В игре представлена смесь линейных уровней и открытых локаций, доступных для исследования игроком. Также присутствует динамическая система погоды, цикл дня и ночи и смена сезонов времён года по мере продвижения истории</h4>
-            <details class="description-name">
+            <br>
+            <details class="description-name" id="sujet">
               <summary>Сюжет игры</summary>
-              С момента как ушли Черные, прошел 1 год (2035). Артем покинул орден и женился на Анне дочери Мельника, и они вместе поселились на родной станции Артема, ВДНХ. Он не может смерится что жители метро единственные
+               <b>С момента как ушли Черные, прошел 1 год (2035). Артем покинул орден и женился на Анне дочери Мельника, и они вместе поселились на родной станции Артема, ВДНХ. Он не может смерится что жители метро единственные
                выжившие, поэтому часто выбирается на поверхность что бы поймать хоть какой-нибудь сигнал. В одной из вылазок его сопровождает супруга, возвращаясь обратно (на ВДНХ) они замечают поезд, перед ними останавливается 
                машина, пологая что это бойцы «Ордена Спарты» они садятся в машину, как вдруг Артем получает прикладом по голове и теряет сознание. Оказалось это «Ганзовцы» патрулируют закрытую территорию с ними в машине
 	             находятся путники с пригорода Москвы, Артем был прав и жители города не единственные выжившие, «Ганзовцы» пытаются расстрелять гостей, Артем решает их спасти, но сам получает пулю и падает с обрыва, но он выживает.
@@ -130,19 +149,19 @@
                Мельник отправляется за картой, а Артем за лекарством. Добираясь до института Артём, подвергается сильному облучению начинает видеть галлюцинации он использует антирад и продолжает свой путь он находит лекарство на него нападает мутант.
                Артем падает и теряет сознание, Мельник, раздобыв карты направляется к институту и находит Артёма при смерти он отдает ему свой антирад и грузит в машину, придя в чувство Артём видит полковника и Кирилла. Кирилл говорит, что Мельник пытался 
                научить его водить, но потерял сознание из-за сильного облучения. Артём садиться за руль и держится из последних сил доезжает до жд путей. Добравшись, теряет сознание очнувшись он видит, что полковник мертв на помощь приходит экипаж. Друзья с помощью переливания крови кое-как вытаскивают Артема с того света, лекарство помогает, они с помощью карты которую раздобыл Мельник.
-               Экипаж находит место пригодное для жизни, где и хоронят Мельника. Они обрели новый дом Артем, становится новым лидером «Ордена Спарты»
+               Экипаж находит место пригодное для жизни, где и хоронят Мельника. Они обрели новый дом Артем, становится новым лидером «Ордена Спарты»</b>
                 </details>
-                <details class="description-name mt-4">
+                <details class="description-name mt-4" id="buy">
                   <summary>Где можно купить</summary>
                   <div class="nav-item"><a href="https://store.steampowered.com/app/412020/Metro_Exodus/" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-steam" viewBox="0 0 16 16">
                     <path d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.198 2.198 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.217 2.217 0 0 1-1.312-1.568L.33 10.333Z"/>
                     <path d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.705 1.705 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027Zm2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048Z"/>
-                  </svg>  - Цена на данный момент 1199 pуб. за стандартную версию и 1599 pуб. за Gold Edition!</a></div>
+                  </svg>  <b>- Цена на данный момент 1199 pуб. за стандартную версию и 1599 pуб. за Gold Edition!</b></a></div>
 
                     <div class="nav-item"><a href="https://www.epicgames.com/store/ru/p/metro-exodus" class="nav-link px-2 text-muted">
-                      <img class="larger" src="https://cdn.worldvectorlogo.com/logos/epic-games-2.svg" width="16" height="16" alt="Epic Games logo vector">  - Цена на данный момент 1199 pуб. за стандартную версию и 1599 pуб. за Gold Edition!</a></div>
+                      <img class="larger" src="https://cdn.worldvectorlogo.com/logos/epic-games-2.svg" width="16" height="16" alt="Epic Games logo vector">  <b>- Цена на данный момент 1199 pуб. за стандартную версию и 1599 pуб. за Gold Edition!</b></a></div>
                 </details>
-                <details class="description-name mt-4">
+                <details class="description-name mt-4" id="system">
                   <summary>Системные требования</summary>
                   <ul>
                     <strong>Минимальные:</strong><br><ul class="bb_ul">
@@ -159,10 +178,18 @@
                       <li><strong>DirectX:</strong> Версии 12<br></li><li><strong>Место на диске:</strong> 59 GB<br></li>
                       <li><strong>Звуковая карта:</strong> DirectX Compatible Sound Card</li></ul></ul>
                 </details>
+              <hr style="height: 2px; color: rgb(255, 0, 0);">
           </div>
         <div class="col-3 text-white info">
           <h2><b>Metro Exodus</b></h2>
           <h4 class="description-name">(В России издана под названием «Метро: Исход») — компьютерная игра в жанре шутера от первого лица, разработанная украинской компанией 4A Games и изданная Deep Silver. Выход игры состоялся 15 февраля 2019 года. <br>  Metro Exodus является шутером от первого лица с элементами <b>Survival Horror</b> и стелс-экшен.</h4>
+          <hr style="height: 2px; color: rgb(255, 0, 0);">
+          <details class="description-name">
+            <summary>Оглавление</summary>
+            <a class="description-name" href="#sujet">▶ Сюжет игры</a><br>
+            <a class="description-name" href="#buy">▶ Где можно купить</a><br>
+            <a class="description-name" href="#system">▶ Системные требования</a><br>
+          </details>
           <div class="col-3">
             <!-- <button type="button" id="SujetOnOff" class="btn btn-warning" style="margin-top: 20px;">Сюжет</button> -->
           </div>
