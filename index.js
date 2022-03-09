@@ -9,7 +9,7 @@ server.get("/", (req, res) => {
 })
 
 // не главная страница
-server.get("/braethedge", (req, res) => {
+server.get("/breathedge", (req, res) => {
   res.sendFile(__dirname + "/breathedge.html")
 })
 
