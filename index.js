@@ -49,5 +49,8 @@ server.get("/csgo", (req, res) => {
   res.sendFile(__dirname + "/csgo.html")
 })
 
+server.get("/windbound", (req, res) => {
+  res.sendFile(__dirname + "/windbound.html")
+})
 server.listen(port, () => console.log('Сервер запущен'));
 
