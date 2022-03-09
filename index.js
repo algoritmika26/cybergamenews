@@ -9,6 +9,11 @@ server.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html")
 })
 
+// не главная страница
+server.get("/braethedge", (req, res) => {
+  res.sendFile(__dirname + "/breathedge.html")
+})
+
 // Это обработчик страницы game_test.html
 server.get("/test_game", (req, res) => {
   res.sendFile(__dirname + "/test_game.html")
