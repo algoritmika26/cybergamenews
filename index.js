@@ -36,7 +36,14 @@ server.get("/metro-exodus", (req, res) => {
 server.get("/ideas-mail", (req, res) => {
   res.sendFile(__dirname + "/mail.html")
 })
+// Это страница (придумаю потом)
+server.get("/LoL", (req, res) => {
+  res.sendFile(__dirname + "/LoL.html")
+})
+
+server.get("/csgo, (req, res) => {
+  res.sendFile(__dirname + "/csgo.html")
+})
+
 server.listen(port, () => console.log('Сервер запущен'));
-
-
 
