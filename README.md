@@ -1,4 +1,4 @@
-[CyberGameNews | Algoritmika 26](https://github.com/algoritmika26)
+#[CyberGameNews | Algoritmika 26](https://github.com/algoritmika26)
 Этот сайт будет посвещен играм и обзорами на них
 ___
 **Все права не защищены © 2022** ```@Алгоритмика Невинномысск```.
