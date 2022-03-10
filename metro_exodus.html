@@ -13,13 +13,16 @@
     <title>CyberGameNews | Metro Exodus</title>
     <style>
       .info{
-        font-family: cursive;
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      text-decoration: none;
       }
       .up-btn{
         border-radius: 50px;
         width: 50px;
         height: 50px;
         box-shadow: 1px;
+        display: none;
       }
       /* .description-name{ */
         /* font: 14px cursive;
@@ -358,7 +361,7 @@
           </div>
           
         <div class="col-3 text-white info">
-          <h2><b>Metro Exodus</b></h2><span class="badge rounded-pill bg-secondary description">Шутер</span> <span class="badge rounded-pill bg-secondary description">Survival Horror</span> <span class="badge rounded-pill bg-secondary description">Cтелс-экшен</span>
+          <h2><b>Metro Exodus</b></h2><span class="badge rounded-pill bg-secondary description" data-bs-toggle="tooltip" data-bs-placement="top" title="Шу́тер (Стрелялка, англ. shooter — «стрелок»)">Шутер</span> <span class="badge rounded-pill bg-secondary description" data-bs-toggle="tooltip" data-bs-placement="top" title="Survival horror (англ. — «ужас выживания», альтернативный перевод «выживание в кошмаре») ">Survival Horror</span> <span class="badge rounded-pill bg-secondary description" data-bs-toggle="tooltip" data-bs-placement="top" title="Стелс (англ. stealth «невидимка; скрытность») ">Cтелс-экшен</span>
           <hr style="height: 2px; color: rgb(255, 0, 0);">
           <h4 class="description-name">(В России издана под названием «Метро: Исход») — компьютерная игра в жанре шутера от первого лица, разработанная украинской компанией 4A Games и изданная Deep Silver. Выход игры состоялся 15 февраля 2019 года. <br>  Metro Exodus является шутером от первого лица с элементами <b>Survival Horror</b> и стелс-экшен.</h4>
           <hr style="height: 2px; color: rgb(255, 0, 0);">
@@ -425,5 +428,11 @@
 
       
  </div>
+ <script>
+   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+ </script>
 </body>
 </html>
