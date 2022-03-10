@@ -14,6 +14,12 @@
       .info{
         font-family: cursive;
       }
+      .up-btn{
+        border-radius: 50px;
+        width: 50px;
+        height: 50px;
+        box-shadow: 1px;
+      }
       /* .description-name{ */
         /* font: 14px cursive;
         /* font-family: 11px cursive; */
@@ -24,6 +30,9 @@
     border: 1px solid rgb(255, 0, 0);
     border-radius: 4px;
     padding: .5em .5em 0;
+    }
+    li::marker{
+      content: "";
     }
     details summary::marker {
         content: "";
@@ -46,6 +55,12 @@
       font-size: 16px;
       font-family: 'Montserrat', sans-serif;
       text-decoration: none;
+        }
+    .description {
+      font-size: 11px;
+      font-family: 'Montserrat', sans-serif;
+      text-decoration: none;
+      margin-bottom: 10px;
         }
       a{
         color: white;
@@ -161,35 +176,43 @@
                     <div class="nav-item"><a href="https://www.epicgames.com/store/ru/p/metro-exodus" class="nav-link px-2 text-muted">
                       <img class="larger" src="https://cdn.worldvectorlogo.com/logos/epic-games-2.svg" width="16" height="16" alt="Epic Games logo vector">  <b>- Цена на данный момент 1199 pуб. за стандартную версию и 1599 pуб. за Gold Edition!</b></a></div>
                 </details>
-                <details class="description-name mt-4" id="system">
-                  <summary>Системные требования</summary>
-                  <ul>
-                    <strong>Минимальные:</strong><br><ul class="bb_ul">
-                      <li>Требуются 64-разрядные процессор и операционная система<br></li>
-                      <li><strong>ОС:</strong> Windows 7/8/10<br></li>
-                      <li><strong>Процессор:</strong> Intel Core i5-4440 or equivalent<br></li>
+                <h2 class="description-name mt-4 text-center" id="system"><b>Системные требования</b></h2>
+          <div class="row">
+            <div class="col-6">
+            <details class="description-name text-center" value>
+              <summary class="text-center">МИНИМАЛЬНЫЕ</summary>
+                    <br><ul><li>Требуются 64-разрядные процессор и операционная система<br></li>
+                      <li><strong>ОС:</strong> Windows 7/8/10<br></li><li><strong>Процессор:</strong> Intel Core i5-4440 или аналогичный<br></li>
                       <li><strong>Оперативная память:</strong> 8 GB ОЗУ<br></li><li><strong>Видеокарта:</strong> GeForce GTX 670 / GeForce GTX 1050 / AMD Radeon HD 7870<br></li>
                       <li><strong>DirectX:</strong> Версии 11<br></li><li><strong>Место на диске:</strong> 59 GB<br></li>
                       <li><strong>Звуковая карта:</strong> DirectX Compatible Sound Card</li></ul></ul>
-                    <ul>
-                      <strong>Рекомендованные:</strong><br><ul class="bb_ul"><li>Требуются 64-разрядные процессор и операционная система<br></li>
-                      <li><strong>ОС:</strong> Windows 10<br></li><li><strong>Процессор:</strong> Intel Core i7-4770k or equivalent<br></li>
+                </details>
+                  </div>
+                  <div class="col-6">
+                    <details class="description-name text-center">
+                      <summary class="text-center">РЕКОМЕНДОВАННЫЕ</summary>
+                      <br><ul><li>Требуются 64-разрядные процессор и операционная система<br></li>
+                      <li><strong>ОС:</strong> Windows 10<br></li><li><strong>Процессор:</strong> Intel Core i7-4770k или аналогичный<br></li>
                       <li><strong>Оперативная память:</strong> 8 GB ОЗУ<br></li><li><strong>Видеокарта:</strong> GeForce GTX 1070 / GeForce RTX 2060 / AMD RX VEGA 56<br></li>
                       <li><strong>DirectX:</strong> Версии 12<br></li><li><strong>Место на диске:</strong> 59 GB<br></li>
                       <li><strong>Звуковая карта:</strong> DirectX Compatible Sound Card</li></ul></ul>
                 </details>
+                  </div>
+                </div>
               <hr style="height: 2px; color: rgb(255, 0, 0);">
           </div>
         <div class="col-3 text-white info">
-          <h2><b>Metro Exodus</b></h2>
+          <h2><b>Metro Exodus</b></h2><span class="badge rounded-pill bg-secondary description">Шутер</span> <span class="badge rounded-pill bg-secondary description">Survival Horror</span> <span class="badge rounded-pill bg-secondary description">Cтелс-экшен</span>
+          <hr style="height: 2px; color: rgb(255, 0, 0);">
           <h4 class="description-name">(В России издана под названием «Метро: Исход») — компьютерная игра в жанре шутера от первого лица, разработанная украинской компанией 4A Games и изданная Deep Silver. Выход игры состоялся 15 февраля 2019 года. <br>  Metro Exodus является шутером от первого лица с элементами <b>Survival Horror</b> и стелс-экшен.</h4>
           <hr style="height: 2px; color: rgb(255, 0, 0);">
           <details class="description-name">
             <summary>Оглавление</summary>
-            <a class="description-name" href="#sujet">▶ Сюжет игры</a><br>
-            <a class="description-name" href="#buy">▶ Где можно купить</a><br>
-            <a class="description-name" href="#system">▶ Системные требования</a><br>
+            <a class="description-name" href="#sujet">Сюжет игры</a><br>
+            <a class="description-name" href="#buy">Где можно купить</a><br>
+            <a class="description-name" href="#system">Системные требования</a><br>
           </details>
+          <hr style="height: 2px; color: rgb(255, 0, 0);">
           <div class="col-3">
             <!-- <button type="button" id="SujetOnOff" class="btn btn-warning" style="margin-top: 20px;">Сюжет</button> -->
           </div>
@@ -201,7 +224,7 @@
             <li class="nav-item"><a href="/" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
             </svg></a></li>
-            <li class="nav-item"><a href="https://github.com/algoritmika26" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+            <li class="nav-item"><a href="https://github.com/TheOre0L" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
               <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
             </svg></a></li>
             <li class="nav-item"><a href="https://discord.gg/dsJmaMCf4P" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
@@ -223,10 +246,10 @@
           <p class="text-center text-muted">Все права не защищены © 2022 <br> Алгоритмика Невинномысск</p>
         </footer>
       </div>
+      
+      <a type="button" class="btn btn-dark up-btn"></a>
 
+      
  </div>
- <script>
-
- </script>
 </body>
 </html>
