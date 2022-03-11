@@ -26,6 +26,24 @@
         font-display: swap;
         src: url('fonts/montserrat/Montserrat-SemiBold.ttf');
         }
+                /* http://daneden.me/animate/ */
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-1.25em);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .details-animated[open] {
+            animation-name: fadeInDown;
+            animation-duration: 0.5s;
+        }
+        .details-animated {
+          transition: height 1s ease;
+        }
       </style>
 </head>
 <body class="bg-dark text-white" >
@@ -110,7 +128,7 @@
             <div class="container">
                 <div class="row">
                   <div class=" col-6">
-                    <details><summary><h3 class="text-center">- Минимальные</h3></summary>
+                    <details class="details-animated"><summary><h3 class="text-center">- Минимальные</h3></summary>
                     <ul>
                         <li>Операционная система: Windows XP/Vista/7</li>
                         <li>Процессор: Intel Core 2 Duo @ 1.8 Ghz / AMD Athlon 64 X2 4000+</li>
@@ -125,7 +143,7 @@
                 </details>
                 </div>
                 <div class=" col-6">
-                    <details><summary><h3 class="text-center">- Рекомендованные</h3></summary>
+                    <details class="details-animated"><summary><h3 class="text-center">- Рекомендованные</h3></summary>
                     <ul>
                         <li>Операционная система: Windows XP/Vista/7</li>
                         <li>Процессор: Intel Core 2 Duo @ 2.4 Ghz / AMD Phenom II X3 @ 2.4 GHz</li>
