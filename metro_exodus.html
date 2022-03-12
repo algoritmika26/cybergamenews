@@ -50,7 +50,23 @@
     details[open] {
         padding: .5em;
     }
-
+    @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-1.25em);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .details-animated[open] {
+            animation-name: fadeInDown;
+            animation-duration: 0.5s;
+        }
+        .details-animated {
+          transition: height 1s ease;
+        }
     details[open] summary {
         border-bottom: 1px solid rgb(255, 0, 0);
         margin-bottom: .5em;
@@ -170,7 +186,7 @@
             <h2 class="description-name mt-4"><b>Подробнее:</b></h2>
             <h4 class="description-name"> Действия проходят на постапокалиптических пустошах территории Российской Федерации и в Республике Казахстан, где игрок должен справляться с новыми опасностями мира и участвовать в борьбе против мутировавших существ, а также враждебно настроенных людей. Игрок владеет арсеналом огнестрельного и метательного оружия, которое может быть улучшено(из модификаций можно настроить все части оружия, начиная от ресивера и заканчивая стволом). В игре представлена смесь линейных уровней и открытых локаций, доступных для исследования игроком. Также присутствует динамическая система погоды, цикл дня и ночи и смена сезонов времён года по мере продвижения истории</h4>
             <br>
-            <details class="description-name" id="sujet">
+            <details class="description-name details-animated" id="sujet">
               <summary>Сюжет игры</summary>
                <b>С момента как ушли Черные, прошел 1 год (2035). Артем покинул орден и женился на Анне дочери Мельника, и они вместе поселились на родной станции Артема, ВДНХ. Он не может смерится что жители метро единственные
                выжившие, поэтому часто выбирается на поверхность что бы поймать хоть какой-нибудь сигнал. В одной из вылазок его сопровождает супруга, возвращаясь обратно (на ВДНХ) они замечают поезд, перед ними останавливается 
@@ -190,7 +206,7 @@
                научить его водить, но потерял сознание из-за сильного облучения. Артём садиться за руль и держится из последних сил доезжает до жд путей. Добравшись, теряет сознание очнувшись он видит, что полковник мертв на помощь приходит экипаж. Друзья с помощью переливания крови кое-как вытаскивают Артема с того света, лекарство помогает, они с помощью карты которую раздобыл Мельник.
                Экипаж находит место пригодное для жизни, где и хоронят Мельника. Они обрели новый дом Артем, становится новым лидером «Ордена Спарты»</b>
                 </details>
-                <details class="description-name mt-4" id="buy">
+                <details class="description-name mt-4 details-animated" id="buy">
                   <summary>Где можно купить</summary>
                   <div class="nav-item"><a href="https://store.steampowered.com/app/412020/Metro_Exodus/" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-steam" viewBox="0 0 16 16">
                     <path d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.198 2.198 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.217 2.217 0 0 1-1.312-1.568L.33 10.333Z"/>
@@ -200,11 +216,11 @@
                     <div class="nav-item"><a href="https://www.epicgames.com/store/ru/p/metro-exodus" class="nav-link px-2 text-muted">
                       <img class="larger" src="https://cdn.worldvectorlogo.com/logos/epic-games-2.svg" width="16" height="16" alt="Epic Games logo vector">  <b>- Цена на данный момент 1199 pуб. за стандартную версию и 1599 pуб. за Gold Edition!</b></a></div>
                 </details>
-                <h2 class="description-name mt-4 text-center" id="system"><b>Системные требования</b></h2>
+                <h2 class="description-name mt-4 text-center " id="system"><b>Системные требования</b></h2>
           
                 <div class="row">
             <div class="col-6">
-            <details class="description-name text-center" value>
+            <details class="description-name text-center details-animated">
               <summary class="text-center">МИНИМАЛЬНЫЕ</summary>
                     <br><ul><li>Требуются 64-разрядные процессор и операционная система<br></li>
                       <li><strong>ОС:</strong> Windows 7/8/10<br></li><li><strong>Процессор:</strong> Intel Core i5-4440 или аналогичный<br></li>
@@ -214,7 +230,7 @@
                 </details>
                   </div>
                   <div class="col-6">
-                    <details class="description-name text-center">
+                    <details class="description-name text-center details-animated">
                       <summary class="text-center">РЕКОМЕНДОВАННЫЕ</summary>
                       <br><ul><li>Требуются 64-разрядные процессор и операционная система<br></li>
                       <li><strong>ОС:</strong> Windows 10<br></li><li><strong>Процессор:</strong> Intel Core i7-4770k или аналогичный<br></li>
@@ -365,7 +381,7 @@
           <hr style="height: 2px; color: rgb(255, 0, 0);">
           <h4 class="description-name">(В России издана под названием «Метро: Исход») — компьютерная игра в жанре шутера от первого лица, разработанная украинской компанией 4A Games и изданная Deep Silver. Выход игры состоялся 15 февраля 2019 года. <br>  Metro Exodus является шутером от первого лица с элементами <b>Survival Horror</b> и стелс-экшен.</h4>
           <hr style="height: 2px; color: rgb(255, 0, 0);">
-          <details class="description-name">
+          <details class="description-name details-animated">
             <summary>Оглавление</summary>
             <a class="description-name" href="#sujet">Сюжет игры</a><br>
             <a class="description-name" href="#buy">Где можно купить</a><br>
