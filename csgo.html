@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="icon.jpg">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>CyberGameNews | CS:GO;</title>
@@ -44,23 +45,43 @@
         .details-animated {
           transition: height 1s ease;
         }
+
+        .description-name-href{
+          font-size: 16px;
+          color:white;
+          font-family: 'Montserrat', sans-serif;
+          text-decoration: none;
+          margin-bottom: 10px;
+        }
+
+        description-name-href:hover{
+          color: rgb(138, 176, 247);
+        }
+
+        .information{
+          color:white;
+          text-decoration: none;
+          margin-bottom: 10px;
+        }
+        .information:hover{
+          color: rgb(138, 176, 247);
+        }
       </style>
 </head>
 <body class="bg-dark text-white" >
     <!--ШАПКА-->
-
-    <div class='container'>
+    <div class='container' style="font-family:'Montserrat'">
         <div class="row">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">CyberGameNews</a>
+                  <a class="navbar-brand" href="/"><img class="img-fluid" style="border-radius:10px" src="icon.png" width="200" height="100" alt=""></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Главная</a>
+                            <a class="nav-link" aria-current="page" href="/">Главная</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Обзоры игр</a>
@@ -79,11 +100,11 @@
         <div class='row'>
             <div class='col-9' style="padding-top:10px;">
                 <br>
-                    <h3 style="font-family: 'Montserrat'; margin-left:15px;">Counter-Strike: Global Offensive <span class="badge rounded-pill bg-secondary">Шутер</span> <span class="badge rounded-pill bg-secondary">Экшен</span></h3>
+                    <h3 style="font-family: 'Montserrat'; margin-left:15px; font-weight: bold;" >Counter-Strike: Global Offensive <span class="badge rounded-pill bg-secondary description" data-bs-toggle="tooltip" data-bs-placement="top" title="Шу́тер (Стрелялка, англ. shooter — «стрелок»)">Шутер</span> <span class="badge rounded-pill bg-secondary description" data-bs-toggle="tooltip" data-bs-placement="top" title="Action (транслит. — «экшен» или «экшн»; в переводе с англ. — «действие»; «игры на ловкость»)">Экшен</span></h3>
 
-
-
-                <br><h5 style="font-family: 'Montserrat' ;">Counter-Strike: Global Offensive — многопользовательская компьютерная игра, разработанная компаниями Valve и Hidden Path Entertainment. Выпуск игры для персональных компьютеров на операционных системах Windows и macOS, также игровых приставках Xbox 360 и PlayStation 3 состоялся 21 августа 2012 года.</h5>
+                <br>
+                
+                <h5 style="font-family: 'Montserrat' ;">Counter-Strike: Global Offensive — многопользовательская компьютерная игра, разработанная компаниями Valve и Hidden Path Entertainment. Выпуск игры для персональных компьютеров на операционных системах Windows и macOS, также игровых приставках Xbox 360 и PlayStation 3 состоялся 21 августа 2012 года.</h5>
             
                 <br>
 
@@ -118,16 +139,16 @@
                 <div style="font-family: 'Montserrat';">
 
                     <hr style="height: 2px; color: rgb(88, 182, 253);">
-                  <h1 class="text-center">Об игре</h1>
+                  <h1 class="text-center" style="font-weight: bold;">Об игре</h1>
                   <h5>Counter-Strike: Global Offensive (CS:GO) расширяет границы ураганной командной игры, представленной ещё 19 лет назад.
 
                     CS:GO включает в себя новые карты, персонажей, оружие и режимы игры, а также улучшает классическую составляющую CS (de_dust2 и т. п.).
                     
                     «Counter-Strike удивила всю игровую индустрию, когда ничем не примечательная модификация стала одним из самых популярных шутеров в мире почти сразу после выпуска в августе 1999 года, — говорит Даг Ломбарди из Valve. — Уже на протяжении 12 лет она продолжает быть одной из самых популярных игр в мире и возглавляет киберспортивные соревнования, а по всему миру продано более 25 миллионов игр этой серии. CS:GO обещает расширить границы заслужившего известность игрового процесса и предложить его игрокам не только на ПК, но и на консолях следующего поколения и компьютерах Mac».</h5>
-                  <br><hr style="height: 2px; color: rgb(87, 176, 255);"><h1 class="text-center">Системные требования</h1>
+                  <br><hr style="height: 2px; color: rgb(87, 176, 255);"><h1 class="text-center" style="font-weight: bold;">Системные требования</h1>
             <div class="container">
                 <div class="row">
-                  <div class=" col-6">
+                  <div class="col-6">
                     <details class="details-animated"><summary><h3 class="text-center">- Минимальные</h3></summary>
                     <ul>
                         <li>Операционная система: Windows XP/Vista/7</li>
@@ -142,7 +163,7 @@
                     </ul>
                 </details>
                 </div>
-                <div class=" col-6">
+                <div class="col-6">
                     <details class="details-animated"><summary><h3 class="text-center">- Рекомендованные</h3></summary>
                     <ul>
                         <li>Операционная система: Windows XP/Vista/7</li>
@@ -164,10 +185,38 @@
             
             <div class='col-3'>
                 <br><img class="img-fluid rounded-3 border border-warning"src="https://s1.gaming-cdn.com/images/products/9459/orig/counter-strike-global-offensive-pc-mac-game-steam-cover.jpg" class="img-fluid">
-                <strong><p style="font-family:'Montserrat'; margin:0px; margin-top:10px;">Разработчик: <a class="text-white" href="https://store.steampowered.com/developer/valve?snr=1_5_9__2000">Valve</a></p></strong>
-                <strong><p style="font-family:'Montserrat'; margin:0px;">Издатель: <a class='text-white' href="https://store.steampowered.com/developer/valve?snr=1_5_9__2000">Valve</a></p></strong>
-                <strong><p style="font-family:'Montserrat'; margin:0px;">Ссылка на скачивание: <a class='text-white' href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/">Steam</a></p></strong>
+                <hr style="height: 2px; color: rgb(87, 176, 255);">
+                <p style="font-family:'Montserrat'; margin:0px; margin-top:10px;">Разработчик: <a class="description-name-href" href="https://store.steampowered.com/developer/valve?snr=1_5_9__2000">🎮Valve</a></span></p>
+                <p style="font-family:'Montserrat'; margin:0px;">Издатель: <a class="description-name-href" href="https://store.steampowered.com/developer/valve?snr=1_5_9__2000">🎮Valve</a></span></p>
+                <p style="font-family:'Montserrat'; margin:0px;">Ссылка на скачивание: <a class="description-name-href" href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-steam" viewBox="0 0 16 16">
+                  <path d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.198 2.198 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.217 2.217 0 0 1-1.312-1.568L.33 10.333Z"/>
+                  <path d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.705 1.705 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027Zm2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048Z"/>
+                </svg> Steam</a></span></p>
+                <hr style="height: 2px; color: rgb(87, 176, 255);">
                 
+                <div class="row">
+                  <h4 class="text-center">Ссылки на автора</h4>
+                  <div class="col-4">
+                    <a href="https://github.com/nemisha226" class="description-name-href"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg> GitHub</a>
+                  </div>
+                  <div class="col-4">
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                        <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+                      </svg> Discord
+                    </button>
+                  </div>
+                  <div class="col-4">
+                    <a href="https://steamcommunity.com/profiles/76561198986596730/" class="description-name-href"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-steam" viewBox="0 0 16 16">
+                      <path d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.198 2.198 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.217 2.217 0 0 1-1.312-1.568L.33 10.333Z"/>
+                      <path d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.705 1.705 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027Zm2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048Z"/>
+                    </svg> Steam</a>
+                  </div>
+              </div>
+              <hr style="height: 2px; color: rgb(87, 176, 255);">
+
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2587339674464508"
                 crossorigin="anonymous"></script>
                 <!-- 123 -->
@@ -181,24 +230,62 @@
                 (adsbygoogle = window.adsbygoogle || []).push({});
               </script>
               </div>
+
         </div>
-        
     </div>
 
+    <div class="modal fade text-black" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm bg-dark">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Medved#5037
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Понял</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 
-    <!--ПОДВАЛ (ФУТЕР)-->
-
-    <div class="container">
-        <footer class="py-3 my-4">
+  </div>
+        <!-- ПОДВАЛ-->
+        <div class="container">
+          <footer class="py-3 my-4">
             <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Главная</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Страница 2</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Страница 3</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Страница 4</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Страница 5</a></li>
+              <li class="nav-item"><a href="https://github.com/algoritmika26" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+              </svg></a></li>
+              <li class="nav-item"><a href="https://discord.gg/dsJmaMCf4P" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+              </svg></a></li>
+              <li class="nav-item"><a href="/ideas-mail" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-exclamation" viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z"/>
+                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1.5a.5.5 0 0 1-1 0V11a.5.5 0 0 1 1 0Zm0 3a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z"/>
+              </svg></a></li>
+              <li class="nav-item"><a href="https://store.steampowered.com/" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-steam" viewBox="0 0 16 16">
+                <path d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.198 2.198 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.217 2.217 0 0 1-1.312-1.568L.33 10.333Z"/>
+                <path d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.705 1.705 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027Zm2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048Z"/>
+              </svg></a></li>
+              <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-app-indicator" viewBox="0 0 16 16">
+                <path d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z"/>
+                <path d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              </svg></a></li>
             </ul>
             <p class="text-center text-muted">Все права не защищены © 2022 <br> Алгоритмика Невинномысск</p>
-        </footer>
-    </div>
+          </footer>
+        </div>
+
+
+
+    <script>
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+    </script>
 </body>
 </html>

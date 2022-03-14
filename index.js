@@ -58,5 +58,9 @@ server.get("/windbound", (req, res) => {
   res.sendFile(__dirname + "/windbound.html")
 })
 
+server.get('*', function(req, res){
+  res.sendFile(__dirname + "/404.html");
+});
+
 server.listen(port, () => console.log('Сервер запущен'));
 
