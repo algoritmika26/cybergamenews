@@ -3,6 +3,7 @@ const server = express();
 const port = 3000;
 
 server.use(express.static('files'))
+server.use(express.static('css'));
 // Это главная страница сайта
 server.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html")
@@ -61,6 +62,7 @@ server.get("/windbound", (req, res) => {
 server.get('*', function(req, res){
   res.sendFile(__dirname + "/404.html");
 });
+
 
 server.listen(port, () => console.log('Сервер запущен'));
 
