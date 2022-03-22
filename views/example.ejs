@@ -1,0 +1,144 @@
+<html>
+<head>
+    <title>Профиль <%= name %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=-PqZOdE39LjhUiV5v95bkuh3zEMyO2jlSyaxewit4dUTxir1DUfu4yIjMqG9wCJjkWwEZwAxEFDUAOaPD9vuzCfFT4gACSALNWNxpZconQVRI8FNpSGGg15y5ts48hnt6deG6WB8DHDIDXMV-enPkA" charset="UTF-8"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <style> 
+body{
+    background: #eee
+}
+.card {
+    border: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer
+}
+.card:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #E1BEE7;
+    transform: scaleY(1);
+    transition: all 0.5s;
+    transform-origin: bottom
+}
+.card:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #8E24AA;
+    transform: scaleY(0);
+    transition: all 0.5s;
+    transform-origin: bottom
+}
+.card:hover::after {
+    transform: scaleY(1)
+}
+.fonts {
+    font-size: 11px
+}
+.social-list {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0
+}
+.social-list li {
+    padding: 10px;
+    color: #8E24AA;
+    font-size: 19px
+}
+.buttons button:nth-child(1) {
+    border: 1px solid #8E24AA !important;
+    color: #8E24AA;
+    height: 40px
+}
+.buttons button:nth-child(1):hover {
+    border: 1px solid #8E24AA !important;
+    color: #fff;
+    height: 40px;
+    background-color: #8E24AA
+}
+.buttons button:nth-child(2) {
+    border: 1px solid #8E24AA !important;
+    background-color: #8E24AA;
+    color: #fff;
+    height: 40px
+}
+    </style>
+    
+</head>
+<body class="bg-dark">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7">
+                <div class="card p-3 py-4">
+                    <div class="text-center"> 
+
+
+                        <div class= "modal fade text-black" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Загрузка фотографии</h5>
+                                </div>
+                                <div class="modal-body">
+                                  <form method="post" action="/edit/avatar/<%= user_id %>">
+                                    <div class="mb-3">
+                                      <label for="recipient-name" class="col-form-label">Ссылка на новую фотографию:</label>
+                                      <input type="text" name="photo" required="" class="form-control" id="recipient-name">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
+                                  <button type="submit" onclick='egorgay()' class="btn btn-primary">Изменить</button>
+                                </div>
+                                    </form>
+                              </div>
+                            </div>
+                          </div>
+
+
+                        <%if (sess_sec == user_secret){%>
+                            <a class="dropdown-item newblock modal-trigger" id="createForm" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <img class="rounded-circle" height="150" width="150" src= <%= image_url %>>
+                            </a> 
+                        <%}else{%>
+                            <img width="100" class="rounded-circle" src= <%= image_url %>> 
+                        <%}%>
+                    </div>
+                    <div class="text-center mt-3">
+                        <h5 class="mt-2 mb-0"><%= name %></h5>
+                        <div class="px-4 mt-1">
+                            <p class="fonts">Зарегистрирован с: <%= time %></p>
+                        </div>
+                        <div class="buttons"> 
+                            <a href="/"><button class="btn btn-outline-primary px-4">Главная</button> </a> 
+                            <a href="/leave"><button class="btn btn-outline-primary px-4">Выйти</button> </a> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function egorgay(){
+        console.log(document.getElementsByName('photo').value)
+    }
+</script>
+
+
+
+
+</body>
+</html>

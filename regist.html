@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>CyberGameNews | REG</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        .input-wrapper{
+            margin-top: 20px;
+            margin-left: 20px;
+            box-shadow: rgba(113, 113, 113, 0.15) -5px -5px -11px rgba(0, 0, 0, 0.15) 5px 5px 11px;
+            border-radius: 20px;
+            width: 325px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+        }.input-wrapper input{
+            background: transparent;
+            border: none;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            text-indent: 20px;
+            color: #2d2d2d;
+            font-size: 14px;
+            box-shadow: rgba(113, 113, 113, 0.15);
+        }.input-icon{
+            width: 20px;
+            margin-right: 20px;
+            border-radius: 50px;
+            padding: 3px 6px;
+            cursor: pointer;
+            transition: all .4s ease;
+        }.input-icon.selected{
+            background-color: #2d2d2d;
+        } ::-webkit-input-placeholder{
+            color: #2d2d2d;
+        }.plase{
+            display: block;
+            margin-top: 20vw;
+            margin-left: auto;
+            margin-right: auto;
+            width: 350px;
+            height: 170px;
+            border-radius: 10px;
+            background: white;
+        }#buttonLogin{
+            text-decoration: none;
+            display: inline-block;
+            width: 140px;
+            height: 45px;
+            line-height: 45px;
+            border-radius: 45px;
+            margin: 10px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 3px;
+            font-weight: 600;
+            color: #524f4e;
+            background: white;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+            transition: .3s;
+            }
+            #buttonLogin:hover {
+            background: #2c302e;
+            box-shadow: 0 15px 20px rgba(35, 37, 37, 0.4);
+            color: white;
+            transform: translateY(-7px);
+        }
+        .show-mode{
+            display: none;
+        }
+        .show-mode-on{
+            display: block;
+            position: absolute;
+            margin-top: 16vw;
+            margin-left: 41.9vw;
+        }
+    </style>
+</head>
+<body class="text-center d-flex h-100 bg-dark">
+    <script>
+        function togglePassword(){
+            let inputPassword = document.getElementById('password')
+            let icon = document.getElementById('show-password')
+
+            if(inputPassword.type === 'password'){
+                inputPassword.type = 'text'
+            } else{
+                inputPassword.type = 'password'
+            }
+        }
+
+        
+
+
+            $(document).ready(() => {
+                $("#form1").submit((event) => {
+                    event.preventDefault();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/auth/regist',
+                        data: $('#form1').serialize(),
+                        dataType: "json",
+                        success: (response) => {
+                            
+                            if(response.Success == 'Успешно'){
+                                return window.location.replace("/");
+                            }else{
+
+                            $('#form1')[0].reset();
+                            document.getElementById("error").style.display = 'block';
+                            document.getElementById('error').classList.add('show-mode-on')
+                            document.getElementById("check").innerHTML = response.Success;
+                        }
+                        setTimeout(() => {
+                                document.getElementById("error").style.display = 'none';
+                                document.getElementById("check").innerHTML = "";
+                            }, 5000);
+                        }
+                    })
+                });
+            });
+	</script>
+
+
+
+<div class="text-center">
+    <div class="alert alert-danger alert-dismissible fade show show-mode text-center" id="error" role="alert">
+        <span style='padding-top:3vw' id="check"></span>
+      </div>
+</div>
+
+    <div class="plase">
+        <form method="post" id="form1">
+            <div class="input-wrapper">
+                <input type="login" name="login" placeholder="Логин" required="">
+                <input type="password" name="password" id="password" placeholder="Пароль" required="">
+                <div class="input-icon" id="icon" onclick="togglePassword()">
+                    <div class="show-password">
+                        <svg id="show" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                          </svg>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="buttonLogin">Далее</button>
+        </form>
+        <p>Уже есть аккаунт? <a href="login">Войти</a></p>
+    </div>
+</body>
+</html>
