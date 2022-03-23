@@ -32,13 +32,12 @@
 <body class="bg-dark text-white text-mont">
   
 
-      <div class="modal fade text-black" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade text-white" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
+          <div class="modal-content text-white bg-dark">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Новый блок</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </button>
+              <h5>Создать новый обзор</h5>
+              <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <form>
@@ -53,8 +52,16 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
-              <button type="button" class="btn btn-primary" onclick="">Создать</button>
+              <button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+                  </svg> Закрыть</button>
+              <button type="button" class="btn btn-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                </svg> Создать</button>
             </div>
           </div>
         </div>
@@ -78,12 +85,12 @@
                     <%if (req.session.secret_id) { %>
                       <div class="dropdown text-end">
                         <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                          <img src=" <%= image %> " alt="mdo" width="32" height="32" class="rounded-circle">
+                          <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                           <li><a class="dropdown-item newblock modal-trigger" id="createForm" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Новый блок...</a></li>
-                          <li><a class="dropdown-item" href="/settings">Настройки</a></li>
-                          <li><a class="dropdown-item" href="/profile/<%=user_id%>">Профиль</a></li>
+                          <li><a class="dropdown-item" href="#">Настройки</a></li>
+                          <li><a class="dropdown-item" href="/profile">Профиль</a></li>
                           <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item" href="/leave">Выйти</a></li>
                         </ul>
@@ -123,7 +130,7 @@
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="https://fakeimg.pl/1000x300/" class="d-block w-100" alt="...">
+                <img src="https://i.imgur.com/Bgb8yK4.png" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Third slide label</h5>
                   <p>Some representative placeholder content for the third slide.</p>
@@ -244,6 +251,66 @@
           </footer>
         </div>
     </div>
+
+    <script>
+    var exampleModal = document.getElementById('exampleModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      var recipient = button.getAttribute('data-bs-whatever')
+      // If necessary, you could initiate an AJAX request here
+      // and then do the updating in a callback.
+      //
+      // Update the modal's content.
+      var modalTitle = exampleModal.querySelector('.modal-title')
+      var modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+      modalTitle.textContent = 'New message to ' + recipient
+      modalBodyInput.value = recipient
+    })
+
+    let posts = [];
+    let modal;
+    const BASE_URL = '/api/post'
+    
+    class PostApi {
+      static fetch() {
+        return fetch(BASE_URL, {method: 'get'}).then(res => res.json())
+      }
+    
+      static create(post) {
+        return fetch(BASE_URL, {
+          method: 'post',
+          body: JSON.stringify(post),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+      }
+    }
+    
+    
+    function onCreatePost() {
+      const $title = document.querySelector('#title')
+      const $text = document.querySelector('#text')
+    
+      if ($title.value && $text.value) {
+        const newPost = {
+          title: $title.value,
+          text: $text.value
+        }
+        PostApi.create(newPost).then(post => {
+          posts.push(post)
+        })
+        $title.value = ''
+        $text.value = ''
+        M.updateTextFields()
+      }
+    }
+  
+</script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>

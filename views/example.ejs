@@ -2,13 +2,14 @@
 <head>
     <title>Профиль <%= name %></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"/>
-    <script type="text/javascript" src="/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=-PqZOdE39LjhUiV5v95bkuh3zEMyO2jlSyaxewit4dUTxir1DUfu4yIjMqG9wCJjkWwEZwAxEFDUAOaPD9vuzCfFT4gACSALNWNxpZconQVRI8FNpSGGg15y5ts48hnt6deG6WB8DHDIDXMV-enPkA" charset="UTF-8"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     
-    <style> 
-body{
+    <style>  
+body {
     background: #eee
 }
+
 .card {
     border: none;
     position: relative;
@@ -16,6 +17,7 @@ body{
     border-radius: 8px;
     cursor: pointer
 }
+
 .card:before {
     content: "";
     position: absolute;
@@ -28,6 +30,7 @@ body{
     transition: all 0.5s;
     transform-origin: bottom
 }
+
 .card:after {
     content: "";
     position: absolute;
@@ -40,34 +43,41 @@ body{
     transition: all 0.5s;
     transform-origin: bottom
 }
+
 .card:hover::after {
     transform: scaleY(1)
 }
+
 .fonts {
     font-size: 11px
 }
+
 .social-list {
     display: flex;
     list-style: none;
     justify-content: center;
     padding: 0
 }
+
 .social-list li {
     padding: 10px;
     color: #8E24AA;
     font-size: 19px
 }
+
 .buttons button:nth-child(1) {
     border: 1px solid #8E24AA !important;
     color: #8E24AA;
     height: 40px
 }
+
 .buttons button:nth-child(1):hover {
     border: 1px solid #8E24AA !important;
     color: #fff;
     height: 40px;
     background-color: #8E24AA
 }
+
 .buttons button:nth-child(2) {
     border: 1px solid #8E24AA !important;
     background-color: #8E24AA;
@@ -82,35 +92,13 @@ body{
         <div class="row d-flex justify-content-center">
             <div class="col-md-7">
                 <div class="card p-3 py-4">
-                    <div class="text-center">
-
-                           <img class="rounded-circle" height="150" width="150" src= <%= image_url %>>
-
-
+                    <div class="text-center"> <img src="https://i.imgur.com/2gHRwGl.png" width="100" class="rounded-circle"> </div>
                     <div class="text-center mt-3">
-
-                            <h4 class="mt-2 mb-0" style="padding:0,0,3px"><%= name %></h4>  
-                        
+                        <h5 class="mt-2 mb-0"><%= name %></h5>
                         <div class="px-4 mt-1">
-                            <p class="fonts" style="padding:0">Осебе: <b><%= about%></b> </p>
-                            <p class="fonts">Зарегистрирован с: <b><%= time %></p></b>
+                            <p class="fonts">Зарегистрирован с: <%= time %></p>
                         </div>
-
-                        
-                        <div class="buttons"> 
-
-                            <%if (sess_sec == user_secret){%>
-
-                                <a href="/settings"><button class="btn btn-outline-primary px-4">Настройки</button> </a> 
-                                <a href="/"><button class="btn btn-outline-primary px-4">Главная</button> </a> 
-                                <a href="/leave"><button class="btn btn-outline-primary px-4">Выйти</button> </a> 
-
-                            <%}else{%>
-
-                                <a href="/"><button class="btn btn-outline-primary px-4">Главная</button> </a> 
-
-                            <%}%>
-                        </div>
+                        <div class="buttons"> <button class="btn btn-outline-primary px-4">Message</button> </div>
                     </div>
                 </div>
             </div>
