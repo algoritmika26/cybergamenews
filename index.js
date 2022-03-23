@@ -12,7 +12,7 @@ const moment = require('moment')
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const jsonParser = express.json();
-const Post = require('./models/posts')
+const Post = require('./models/posts');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // app.use(cookieParser());
@@ -35,28 +35,97 @@ app.get("/",  async (req, res) => {
     const User = await user.findOne({
       secret_id: req.session.secret_id
     })
+    try{
+      res.render('index.ejs', { 
+        'req':req,
+        'image':User.image_url,
+        'user_id':User.user_id
+      })
+    } catch{
+      res.redirect('/auth/login')
+    }
 
-    res.render('index.ejs', { 
-      "name": User.name,
-      "req":req
+  }
+})
+
+app.get('/profile/*',  async (req, res) => {
+
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+
+  let unique_id = req.url.slice(9)
+  console.log(unique_id)
+
+  const users = await user.findOne({
+    user_id: unique_id
+  })
+
+  if(!users){
+     return res.send('такого пользователя нет')
+  }else{
+
+    res.render("example.ejs", {
+      'sess_sec':req.session.secret_id,
+      'about': users.about,
+      'user_secret':users.secret_id,
+      'image_url':users.image_url,
+      'username':users.login,
+      'name':users.username,
+      'time': users.dateRegist.toLocaleDateString("ru-RU"),
+      'user_id':users.user_id
     })
   }
 })
 
-app.get("/profile", async (req, res) => {
+app.get('/settings', async(req, res) => {
+  if(!req.session.secret_id) return res.redirect('/auth/login');
 
-  if(!req.session.secret_id) return res.redirect('/auth/login')
+  let users = await user.findOne({
+    secret_id:req.session.secret_id
+  })
 
-  const User = await user.findOne({
-    secret_id: req.session.secret_id
-  })
-  const final = User.dateRegist.toLocaleDateString("ru-RU")
-  res.render("example.ejs", {
-    'name': User.username,
-    'time': final
-  })
+  if(!users) return res.redirect('/auth/login')
+  else{
+    res.render('settings.ejs', {
+      'req':req,
+      'name':users.login,
+      'username':users.username,
+      'about': users.about,
+      'image':users.image_url,
+      'image_url':users.image_url,
+      'user_id':users.user_id
+    })
+  }
+
 })
 
+
+
+app.post('/settings/avatar/*', urlencodedParser, async (req, res) => {
+  
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+
+  let users = await user.findOne({
+    secret_id:req.session.secret_id
+  })
+
+  if(!users) return res.redirect('/auth/login')
+
+  else{
+    let link = req.body.photo.split('.')
+    console.log(link)
+    let pngLink = link[link.length - 1]
+    const godeLink = ['jpg', 'gif', 'png', 'jpeg']
+
+    if(godeLink.includes(pngLink)){
+      users.image_url = req.body.photo
+      users.save();
+    }else{
+      return res.redirect(`/settings`)
+    }
+
+    return res.redirect(`/profile/${users.user_id}`)
+  }
+})
 
 //algoRitm
 app.get("/auth/login", (req, res) => {
@@ -97,19 +166,12 @@ app.post('/api/posts/', async(req,res) => {
   res.status(201).json(post)
 })
 
-app.delete('/:postId', async(req,res) => {
-  await Post.remove({_id: req.params.postId})
-  res.status(200).json({
-    message: 'Удалено'
-  })
-})
-
 
 app.post('/auth/login', urlencodedParser, async (req, res) => {
   let login = req.body.login
 
   const users = await user.findOne({
-    username: login
+    login: login
   })
 
   if(!users){
@@ -122,13 +184,42 @@ app.post('/auth/login', urlencodedParser, async (req, res) => {
 });
 })
 
+
+app.post('/settings/sumbit/', urlencodedParser, async(req,res) =>{
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+
+  let users = await user.findOne({
+    secret_id:req.session.secret_id
+  })
+
+  if(!users) return res.redirect('/auth/login')
+  else{
+    let link = req.body.photo
+    if(link){
+      link = req.body.photo.split('.')
+      
+    console.log(link)
+    let pngLink = link[link.length - 1]
+    const godeLink = ['jpg', 'gif', 'png', 'jpeg']
+
+    if(godeLink.includes(pngLink)){
+      users.image_url = req.body.photo;
+    }
+  }
+
+    users.username=req.body.nick; 
+    users.about=req.body.about
+
+    users.save()
+    return res.redirect(`/profile/${users.user_id}`)
+  }
+})
+
 app.post("/auth/regist", urlencodedParser, async (req, res) => {
     let login = req.body.login
 
-
-
     const users = await user.findOne({
-      username: login
+      login: login
     })
 
     if(users){
@@ -171,6 +262,7 @@ app.post("/auth/regist", urlencodedParser, async (req, res) => {
     bcrypt.genSalt(5, async function(err, salt) {
       bcrypt.hash(password, salt, async function(err, hash) {
         let NewUser = await new user({
+          login: login,
           username: login,
           password: hash,
           user_id: gen_id(),

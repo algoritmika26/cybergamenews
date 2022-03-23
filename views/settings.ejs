@@ -26,7 +26,7 @@
             <div class="input_div text-dark">
                 <div class="nick">
                     <h2 style="margin:0">Никнейм</h2>
-                    <input type="text" class='inputt' name='nick' value="<%= name %>">
+                    <input type="text" class='inputt' name='nick' value="<%= username %>">
                 </div>
 
                 <div class="about">
@@ -34,27 +34,27 @@
                     <input type="text" class='inputt' name='about' value="<%= about %>">                
                 </div>
                 
-                <button class="btn button text-dark" type='submit' style="margin-top:10px;">Сохранить</button>
+                <button class="btn button text-white" type='submit' style="margin-top:10px;">Сохранить</button>
             </form>
 
             </div>
 
-        <div class= "modal fade text-black" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class= "modal fade text-white" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title text-dark" id="exampleModalLabel">Изменения фотографии</h5>
+                <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white " id="exampleModalLabel">Изменения фотографии</h5>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-dark">
             <form method="post" action="/settings/avatar/<%= user_id %>">
                     <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Ссылка на новую фотографию:</label>
+                    <label for="recipient-name" class="col-form-label text-white">Ссылка на новую фотографию:</label>
                     <input type="text" name="photo" required="" class="form-control" id="recipient-name">
                     </div>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
-                <button type="submit" class="btn btn-primary">Изменить</button>
+                <div class="modal-footer bg-dark">
+                <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
+                <button type="submit" class="btn btn-primary text-white">Изменить</button>
                 </div>
             </form>
             </div>
