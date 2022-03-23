@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройки <%= name %></title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=-PqZOdE39LjhUiV5v95bkuh3zEMyO2jlSyaxewit4dUTxir1DUfu4yIjMqG9wCJjkWwEZwAxEFDUAOaPD9vuzCfFT4gACSALNWNxpZconQVRI8FNpSGGg15y5ts48hnt6deG6WB8DHDIDXMV-enPkA" charset="UTF-8"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body class="bg-dark text-white text-center">
+
+
+
+
+
+        <div class="container">
+            <div class="row" style="font-family: 'Montserrat';">
+            <form action="/settings/sumbit/" method="post">
+                <div>
+                    <img class="image rounded-circle" height="150" width="150" class="dropdown-item newblock modal-trigger" id="createForm" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" src= <%= image_url %> >
+                </div>
+            <div class="input_div text-dark">
+                <div class="nick">
+                    <h2 style="margin:0">Никнейм</h2>
+                    <input type="text" class='inputt' name='nick' value="<%= name %>">
+                </div>
+
+                <div class="about">
+                    <h2 style="margin:0">О себе</h2>
+                    <input type="text" class='inputt' name='about' value="<%= about %>">                
+                </div>
+                
+                <button class="btn button text-dark" type='submit' style="margin-top:10px;">Сохранить</button>
+            </form>
+
+            </div>
+
+        <div class= "modal fade text-black" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title text-dark" id="exampleModalLabel">Изменения фотографии</h5>
+                </div>
+                <div class="modal-body">
+            <form method="post" action="/settings/avatar/<%= user_id %>">
+                    <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Ссылка на новую фотографию:</label>
+                    <input type="text" name="photo" required="" class="form-control" id="recipient-name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
+                <button type="submit" class="btn btn-primary">Изменить</button>
+                </div>
+            </form>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        </div>
+    </div>
+
+
+    <style>
+        @font-face {
+            font-family: 'Montserrat';
+            font-weight: 100;
+            font-display: swap;
+            src: url('fonts/montserrat/Montserrat-SemiBold.ttf');
+        }
+
+        .container{
+            padding-top:2vw;
+        }
+
+        .btn{
+            text-decoration: none;
+            display: inline-block;
+            width: 120px;
+            height: 40px;
+            border-radius: 45px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 3px;
+            font-weight: 600;
+            color: #524f4e;
+            border-color:black;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+            transition: .3s;
+        }
+
+        .btn:hover{
+            color:white;
+            background-color:black;
+            transform:translateY(5px);
+        }
+
+        .input_div{
+            margin-top:2vw;
+            background: white;
+            margin-left: auto;
+            margin-right: auto;
+            width: 440px;
+            height: 220px;
+            border-radius: 10px;
+        }
+        
+        .nick, .about{
+            border-color:black;
+            border-radius: 45px;
+            padding-top:1vw;
+        }
+
+        .inputt{
+            width:15vw;
+            padding-left:15px;
+            height: 2.5vw;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+            border-radius: 45px;
+        }
+
+        @keyframes wiggle {
+            0% { transform: rotate(0deg); }
+            80% { transform: rotate(0deg); }
+            85% { transform: rotate(5deg); }
+            95% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .image{
+            animation: none;
+        }
+
+        .image:hover{
+            opacity:0.5;
+            animation: wiggle 0.5s infinite;
+        }
+
+    </style>
+</body>
+</html>

@@ -61,6 +61,7 @@ app.get('/profile/*',  async (req, res) => {
 
     res.render("example.ejs", {
       'sess_sec':req.session.secret_id,
+      'about': users.about,
       'user_secret':users.secret_id,
       'image_url':users.image_url,
       'name': users.username,
@@ -70,7 +71,30 @@ app.get('/profile/*',  async (req, res) => {
   }
 })
 
-app.post('/edit/avatar/*', urlencodedParser, async (req, res) => {
+app.get('/settings', async(req, res) => {
+  if(!req.session.secret_id) return res.redirect('/auth/login');
+
+  let users = await user.findOne({
+    secret_id:req.session.secret_id
+  })
+
+  if(!users) return res.redirect('/auth/login')
+  else{
+    res.render('settings.ejs', {
+      'req':req,
+      'name':users.username,
+      'about': users.about,
+      'image':users.image_url,
+      'image_url':users.image_url,
+      'user_id':users.user_id
+    })
+  }
+
+})
+
+
+
+app.post('/settings/avatar/*', urlencodedParser, async (req, res) => {
   
   if(!req.session.secret_id) return res.redirect('/auth/login')
 
@@ -82,14 +106,17 @@ app.post('/edit/avatar/*', urlencodedParser, async (req, res) => {
 
   else{
     let link = req.body.photo.split('.')
+    console.log(link)
     let pngLink = link[link.length - 1]
     const godeLink = ['jpg', 'gif', 'png', 'jpeg']
+
     if(godeLink.includes(pngLink)){
       users.image_url = req.body.photo
       users.save();
     }else{
-      return res.redirect(`/`)
+      return res.redirect(`/settings`)
     }
+
     return res.redirect(`/profile/${users.user_id}`)
   }
 })
@@ -133,13 +160,6 @@ app.post('/api/posts/', async(req,res) => {
   res.status(201).json(post)
 })
 
-app.delete('/:postId', async(req,res) => {
-  await Post.remove({_id: req.params.postId})
-  res.status(200).json({
-    message: 'Удалено'
-  })
-})
-
 
 app.post('/auth/login', urlencodedParser, async (req, res) => {
   let login = req.body.login
@@ -158,10 +178,39 @@ app.post('/auth/login', urlencodedParser, async (req, res) => {
 });
 })
 
+
+app.post('/settings/sumbit/', urlencodedParser, async(req,res) =>{
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+
+  let users = await user.findOne({
+    secret_id:req.session.secret_id
+  })
+
+  if(!users) return res.redirect('/auth/login')
+  else{
+    let link = req.body.photo
+    if(link){
+      link = req.body.photo.split('.')
+      
+    console.log(link)
+    let pngLink = link[link.length - 1]
+    const godeLink = ['jpg', 'gif', 'png', 'jpeg']
+
+    if(godeLink.includes(pngLink)){
+      users.image_url = req.body.photo;
+    }
+  }
+
+    users.username=req.body.nick; 
+    users.about=req.body.about
+
+    users.save()
+    return res.redirect(`/profile/${users.user_id}`)
+  }
+})
+
 app.post("/auth/regist", urlencodedParser, async (req, res) => {
     let login = req.body.login
-
-
 
     const users = await user.findOne({
       username: login
