@@ -10,10 +10,25 @@ const postSchema = new Schema({
     type: String,
     required: true
   },
-  date: {
+  
+  short_desc: String,
+  
+  date: String,
+
+  datg: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now()
+  },
+
+  photo_url:{type: String},
+
+  type:String,
+
+  author_sid: String,
+
+  id: String,
+
+  photo2: String
 })
 
 module.exports = mongoose.model('posts', postSchema)

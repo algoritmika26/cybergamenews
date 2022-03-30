@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/algoritmika26/cybergamenews/main/files/CG.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script type="text/javascript" src="/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=-PqZOdE39LjhUiV5v95bkuh3zEMyO2jlSyaxewit4dUTxir1DUfu4yIjMqG9wCJjkWwEZwAxEFDUAOaPD9vuzCfFT4gACSALNWNxpZconQVRI8FNpSGGg15y5ts48hnt6deG6WB8DHDIDXMV-enPkA" charset="UTF-8"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
     <title>CyberGameNews - Новости об играх</title>
     <style>
       .radius-small {
@@ -30,8 +33,6 @@
     </style>
 </head>
 <body class="bg-dark text-white text-mont">
-  
-
       <div class="modal fade text-black" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -41,20 +42,44 @@
               </button>
             </div>
             <div class="modal-body">
-              <form>
+              <form id="form1"> 
+
                 <div class="form-group">
                   <label for="recipient-name" class="col-form-label">Название:</label>
-                  <input type="text" class="form-control" id="recipient-name title">
+                  <input type="text" name="title" class="form-control" id="recipient-name title" required="">
                 </div>
+
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Тип блока:</label>
+                  <input type="text" name="type" class="form-control" id="recipient-name title" value="Обзор" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Короткое описание:</label>
+                  <textarea name="short_text" class="form-control" id="message-text text" required=""></textarea>
+                </div>
+
                 <div class="form-group">
                   <label for="message-text" class="col-form-label">Содержимое:</label>
-                  <textarea class="form-control" id="message-text text"></textarea>
+                  <textarea name="text" class="form-control" id="message-text text" required=""></textarea>
                 </div>
+
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Изображение:</label>
+                  <input name='photo_url' class="form-control" id="message-text text" required="">
+                </div>
+
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Изображение #2:</label>
+                  <input name='image2' class="form-control" id="message-text text">
+                </div>
+
+                <div class="modal-footer">                  
+                  <button class="btn btn-primary" type="submit">Создать</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
+                </div>
+
               </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
-              <button type="button" class="btn btn-primary" onclick="">Создать</button>
             </div>
           </div>
         </div>
@@ -81,11 +106,21 @@
                           <img src=" <%= image %> " alt="mdo" width="32" height="32" class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                          
+                          <%if (user.Roles == 'POSTER' || user.Roles == 'ADMIN') { %>
                           <li><a class="dropdown-item newblock modal-trigger" id="createForm" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Новый блок...</a></li>
                           <li><a class="dropdown-item" href="/settings">Настройки</a></li>
                           <li><a class="dropdown-item" href="/profile/<%=user_id%>">Профиль</a></li>
                           <li><hr class="dropdown-divider"></li>
                           <li><a class="dropdown-item" href="/leave">Выйти</a></li>
+                          <% }else{ %>
+                            <li><a class="dropdown-item newblock modal-trigger" href="403.html">Новый блок...</a></li>
+                            <li><a class="dropdown-item" href="/settings">Настройки</a></li>
+                            <li><a class="dropdown-item" href="/profile/<%=user_id%>">Профиль</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/leave">Выйти</a></li>
+                          <%}%> 
+
                         </ul>
                       </div>
                       <% }else{ %>
@@ -97,9 +132,6 @@
                   </div>
                 </div>
               </header>
-        <div class="row">
-          
-        </div>
 
         <!-- СЛАЙДЕР -->
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
@@ -123,7 +155,7 @@
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="https://fakeimg.pl/1000x300/" class="d-block w-100" alt="...">
+                <img src="https://abload.de/img/annieyrkcc.png" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Third slide label</h5>
                   <p>Some representative placeholder content for the third slide.</p>
@@ -162,7 +194,7 @@
 
             <div class="col-4 text-center">
               <a href="/cyberpunk2077-top-igra">
-                <img class="img-fluid radius-small" src="https://fakeimg.pl/500x500/">
+                <img class="img-fluid radius-small" src="https://static.pepper.ru/threads/raw/default/233398_1/re/1024x1024/qt/60/233398_1.jpg">
               </a>
               <h3>Cyberpunk</h3>
               <small>Тут будет описание игры...</small>
@@ -171,7 +203,7 @@
 
             <div class="col-4 text-center">
               <a href="/code-vein">
-                <img class="img-fluid radius-small" src="https://fakeimg.pl/500x500/">
+                <img class="img-fluid radius-small" src="https://lastfm.freetls.fastly.net/i/u/500x500/f5b76741ece9e1840d266b193665f72b.jpg">
               </a>
               <h3>Code Vein</h3>
               <small>Тут будет описание игры...</small>
@@ -179,7 +211,7 @@
 
             <div class="col-4 text-center">
               <a href="/LoL">
-                <img class="img-fluid radius-small" src="https://fakeimg.pl/500x500/">
+                <img class="img-fluid radius-small" src="https://cdns-images.dzcdn.net/images/artist/21e53b8e8285f84f60601d895c39c900/500x500.jpg">
               </a>
               <h3>League Of Legend</h3>
               <small>Тут будет описание игры...</small>
@@ -187,7 +219,7 @@
 
             <div class="col-4 text-center">
               <a href="/breathedge">
-                <img class="img-fluid radius-small" src="https://fakeimg.pl/500x500/">
+                <img class="img-fluid radius-small" src="https://fs-prod-cdn.nintendo-europe.com/media/images/11_square_images/games_18/nintendo_switch_download_software/SQ_NSwitchDS_Breathedge_image500w.jpg">
               </a>
               <h3>Breathedge</h3>
               <small>Тут будет описание игры...</small>
@@ -195,7 +227,7 @@
 
             <div class="col-4 text-center">
               <a href="/igra-witcher3">
-                <img class="img-fluid radius-small" src="https://fakeimg.pl/500x500/">
+                <img class="img-fluid radius-small" src="https://fs-prod-cdn.nintendo-europe.com/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NSwitch_TheWitcher3WildHuntCompleteEdition_enGB_image500w.jpg">
               </a>
               <h3>The Witcher 3: Wild Hunt</h3>
               <small>Тут будет описание игры...</small>
@@ -244,7 +276,19 @@
           </footer>
         </div>
     </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+      $(document).ready(() => {
+      $("#form1").submit((event) => {
+          event.preventDefault();
+          $.ajax({
+              type: 'POST',
+              url: '/posts/create',
+              data: $('#form1').serialize(),
+              dataType: "json"
+            })
+          });
+      });
+    </script>
 </body>
 </html>

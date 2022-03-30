@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const app = express();
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const multer  = require('multer')
 const bodyParser = require('body-parser');
-const flash = require('express-flash-notification');
+const nodemail = require('nodemailer');
 const port = 3000;
+require('dotenv').config();
+const Chat = require('./models/chats')
+
 const user = require('./models/users')
 const moment = require('moment')
 const cookieParser = require('cookie-parser');
@@ -18,20 +20,21 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 // app.use(cookieParser());
 app.use(express.static('files'))
 app.use(express.static('css'));
+app.use(express.static('errors'));
 app.set('view engine', 'ejs')
 
 app.use(session({resave: true, secret: 'mydumbcat' , saveUninitialized: true}));
 
-mongoose.connect('mongodb+srv://pistrun333:LmHL93K2lPIUhUoo@cluster0.s4kir.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect(process.env.BD_LINK, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
 
 // Это главная страница сайта
 app.get("/",  async (req, res) => {
   if(!req.session.secret_id) res.render('index.ejs', {"req":req})
   else{
-
     const User = await user.findOne({
       secret_id: req.session.secret_id
     })
@@ -39,13 +42,414 @@ app.get("/",  async (req, res) => {
       res.render('index.ejs', { 
         'req':req,
         'image':User.image_url,
-        'user_id':User.user_id
+        'user_id':User.user_id,
+        'user':User
       })
     } catch{
       res.redirect('/auth/login')
     }
 
   }
+})
+
+app.get('/secretadminsuperlink/', async(req, res) => {
+  if (!req.session.secret_id) return res.redirect('/auth/login')
+  else{
+      const User = await user.findOne({
+        secret_id: req.session.secret_id
+      })
+    if (User.Roles != 'ADMIN') {
+        res.redirect('/error/403')
+    }else{
+
+      let admusers = [];
+      let userroles = [];
+
+      let users = await user.find().sort().exec(async function(err, sorted_users) {
+        for(i=0; i < sorted_users.length; i++){
+          if(sorted_users[i].Roles == 'ADMIN'){
+            admusers.push(sorted_users[i].login)
+          }
+        }
+      })
+
+      console.log(admusers, userroles)
+
+      res.render('adminpanel.ejs', {
+        req:req,
+        Users: admusers,
+        UsersRoles: userroles
+      })
+    }
+  }
+})
+
+app.get('/secretadminsuperlink/posters', async(req, res) => {
+  
+  if (!req.session.secret_id) return res.redirect('/auth/login')
+  else{
+    const User = await user.findOne({
+      secret_id: req.session.secret_id
+    })
+  if (User.Roles != 'ADMIN') {
+      res.redirect('/error/403')
+  }else{
+    res.render('newPosters.ejs', {
+      req:req
+    })
+  }
+  }
+})
+
+app.get('/secretadminsuperlink/admins', async(req, res) => {
+  if (!req.session.secret_id) return res.redirect('/auth/login')
+  else{
+    const User = await user.findOne({
+      secret_id: req.session.secret_id
+    })
+  if (User.Roles != 'ADMIN') {
+      res.redirect('/error/403')
+  }else{
+    res.render('newAdmins.ejs', {
+      req:req
+    })
+  }
+  }
+})
+
+app.get('/posts/edit/*', async(req, res) => {
+  let link = req.url.slice(12)
+  const post = await Post.findOne({
+    id: link
+  })
+
+  console.log(link)
+
+  if(!post) return res.send('такого поста нет')
+
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+
+  if(req.session.secret_id == post.author_sid ){
+  const selfusers = await user.findOne({
+    secret_id: req.session.secret_id
+  })
+
+  res.render('post.ejs', {
+    'editMode':true,
+    'req': req,
+    'image':selfusers.image_url,
+    'user_id':selfusers.user_id,
+    'user':selfusers,
+    'post': post,
+    'date': post.datg.toLocaleDateString("ru-RU"),
+  })
+}else{
+  return res.sendFile(__dirname + '/errors/403.html')
+}
+})
+
+
+
+app.get('/chat/*', async(req, res) => {
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+  let mine_id = req.url.slice(6).split('_')[0]
+  let user2_id = req.url.split('_')[1]
+  console.log(mine_id + ' ' + user2_id)
+
+  const chat = await Chat.findOne({
+    user1: mine_id,
+    user2: user2_id
+  })
+
+  if(!chat){
+    let createchat = await new Chat({
+      user1: mine_id,
+      user2: user2_id
+    });
+
+    createchat.save()
+  }
+
+  res.render('chat.ejs', {
+    historyChat: chat.messagehistory,
+    user1: mine_id,
+    user2: user2_id
+  })
+})
+
+app.get('/posts/', urlencodedParser, async(req,res) => {
+
+  let page = await Post.find().sort([['date', 'descending']]).exec(async function(err, posts){
+    
+    let posted = [];
+
+    for(var i=0; i<posts.length; i++){
+      posted.push(posts[i])
+    }
+    if(!req.session.secret_id) res.render('posts.ejs', {
+      Posts: posted,
+      'req':req 
+    })
+    else{
+      let users = await user.findOne({
+        secret_id: req.session.secret_id
+      })
+
+      res.render('posts.ejs', {
+        Posts: posted,
+        'req':req,
+        'image':users.image_url,
+        'user_id':users.user_id,
+        'user':users
+    })
+
+  }
+})  
+
+})
+
+app.get('/post/*', async(req, res) => {
+  
+  let post_id = req.url.slice(6)
+
+  const post = await Post.findOne({
+    id:post_id
+  })
+
+  if(!post) return res.redirect('/');
+  
+  const users = await user.findOne({
+    secret_id: post.author_sid
+  })
+  
+
+  if(!req.session.secret_id) res.render('post.ejs', {
+    'editMode':false,
+    "req":req,
+    "user": users,
+    'post': post,
+    'date': post.datg.toLocaleDateString("ru-RU")   
+})
+
+
+  else{
+    const selfusers = await user.findOne({
+      secret_id: req.session.secret_id
+    })
+
+    res.render('post.ejs', {
+      'editMode':false,
+      'req':req,
+      'image':selfusers.image_url,
+      'user_id':selfusers.user_id,
+      'user':users,
+      'selfuser':selfusers,
+      'post': post,
+      'date': post.datg.toLocaleDateString("ru-RU"),
+    })
+}
+})
+
+app.post('/posts/edits/*', urlencodedParser, async(req, res) => {
+  if(!req.session.secret_id) return res.redirect('/auth/login');
+  let id = req.url.slice(13)
+  const post = await Post.findOne({
+    id:id
+  })
+
+  if(!post) return res.redirect('/')
+  else{
+    if(req.session.secret_id == post.author_sid){
+
+      if(req.body.title){
+        post.title = req.body.title;
+
+        if(req.body.desc){
+          post.text = req.body.desc;
+        }
+        
+        if(req.body.sdesc){
+          post.short_desc = req.body.sdesc;
+        }
+
+        post.save();
+      }else{
+        if(req.body.desc){
+          post.text = req.body.desc;
+        }
+
+        if(req.body.sdesc){
+          post.short_desc = req.body.sdesc;
+        }
+
+        post.save();
+      }
+
+      return res.redirect('/posts');
+  }else{
+    return res.redirect('/auth/login');
+  }
+
+  }
+})
+
+app.post('/secretadminsuperlink/posters', urlencodedParser, async (req, res) => {
+    if (!req.session.secret_id) return res.redirect('/auth/login'); 
+    const User = await user.findOne({
+      username: req.body.searchAdmin
+    });
+      if(!User){
+        return res.sendFile(__dirname + "/errors/404.html");
+      }      
+
+      User.Roles = 'POSTER'
+      await User.save()
+      return res.redirect('/');
+})
+
+app.post('/secretadminsuperlink/admins', urlencodedParser, async (req, res) => {
+  if (!req.session.secret_id) return res.redirect('/auth/login'); 
+  const User = await user.findOne({
+    username: req.body.searchAdmin
+  });
+    if(!User){
+      return res.sendFile(__dirname + "/errors/404.html");
+    }
+
+    User.Roles = 'ADMIN'
+    await User.save()
+    return res.redirect('/');
+})
+
+app.post('/posts/create', urlencodedParser, async(req,res) => {
+    if (!req.session.secret_id) return res.redirect('/auth/login');
+
+  let users = await user.findOne({
+    secret_id: req.session.secret_id
+  })
+
+  let id = Math.floor(Math.random() * 7800 + 500)
+
+  if(!req.body.image2){
+
+    let newpost = await Post.create({
+      title:req.body.title,
+      date: Date.now(),
+      photo_url:req.body.photo_url,
+      text:req.body.text,
+      type:req.body.type,
+      short_desc:req.body.short_text,
+      id:id,
+      author_sid: req.session.secret_id
+    })
+
+    console.log(newpost)
+
+    return res.send({'Success': 'Создал'})
+  
+  }else{
+    let newpost = await Post.create({
+      title:req.body.title,
+      date: Date.now(),
+      photo_url:req.body.photo_url,
+      photo2: req.body.image2,
+      text:req.body.text,
+      type:req.body.type,
+      short_desc:req.body.short_text,
+      id:id,
+      author_sid: req.session.secret_id
+    })
+
+    return res.send({'Success': 'Создал'})
+  }
+})
+
+app.get('/posts/delete/*', async(req,res) => {
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+  let link = req.url.slice(14);
+
+  let post = await Post.findOne({
+    id: link
+  })
+
+  if(!post) return res.redirect('/')
+
+  const users = await user.findOne({
+    secret_id: post.author_sid
+  })
+
+  const selfuser = await user.findOne({
+    secret_id: req.session.secret_id
+  });
+
+  console.log(selfuser)
+
+ 
+  if(users.user_id != selfuser.user_id) return res.redirect('/')   
+  else{
+
+    // if(selfuser.Roles != 'ADMIN') return res.redirect('/')
+
+    await post.remove()
+    
+    res.redirect('/posts/')
+  }
+})
+
+
+
+app.post('/chat/*', urlencodedParser, async(req, res) => {
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+
+  let mine_id = req.url.slice(6).split('_')[0]
+  let user2_id = req.url.split('_')[1]
+  console.log(mine_id + ' ' + user2_id)
+
+  const chat = await Chat.findOne({
+    user1: mine_id,
+    user2: user2_id
+  })
+
+  if(!chat){
+    let createchat = await new Chat({
+      user1: mine_id,
+      user2: user2_id
+    });
+
+    createchat.save()
+  }
+
+  const users = await user.findOne({
+    secret_id:req.session.secret_id
+  })
+
+  let chats = req.body.chat;
+
+  chat.messagehistory.push({'message': chats, 'user': users.username})
+  await chat.save();
+
+  res.redirect(`/chat/${mine_id}_${user2_id}`)
+})
+
+app.post("/ideas-mail", urlencodedParser, async(req, res) => {
+  let author = await req.body.user
+  let text = await req.body.text
+
+  const poster = nodemail.createTransport({
+    service:'gmail',
+    auth:{
+      user: process.env.MAIL,
+      pass: process.env.PSWRD,
+    }
+  })
+  const mailOptions = {
+    from: `${author}`,
+    to: process.env.MAIL,
+    subject: 'CyberGameNews',
+    text: `${text}`
+  }
+
+  await poster.sendMail(mailOptions)
 })
 
 app.get('/profile/*',  async (req, res) => {
@@ -62,7 +466,11 @@ app.get('/profile/*',  async (req, res) => {
   if(!users){
      return res.send('такого пользователя нет')
   }else{
+    const me = await user.findOne({
+      secret_id:req.session.secret_id
+    })
 
+    if(me.user_id < users.user_id){
     res.render("example.ejs", {
       'sess_sec':req.session.secret_id,
       'about': users.about,
@@ -71,8 +479,24 @@ app.get('/profile/*',  async (req, res) => {
       'username':users.login,
       'name':users.username,
       'time': users.dateRegist.toLocaleDateString("ru-RU"),
-      'user_id':users.user_id
+      'user_id':users.user_id,
+      'user_1':me.user_id,
+      'user_2':users.user_id
     })
+  }else{
+    res.render("example.ejs", {
+      'sess_sec':req.session.secret_id,
+      'about': users.about,
+      'user_secret':users.secret_id,
+      'image_url':users.image_url,
+      'username':users.login,
+      'name':users.username,
+      'time': users.dateRegist.toLocaleDateString("ru-RU"),
+      'user_id':users.user_id,
+      'user_1':users.user_id,
+      'user_2':me.user_id
+    })
+  }
   }
 })
 
@@ -147,23 +571,6 @@ app.get('/leave' , (req, res) => {
 
 app.get("/auth/regist", (req, res) => {
   res.sendFile(__dirname + "/regist.html")
-})
-
-app.get('/posts/', async (req, res) => {
-  const posts = await Post.find({ })
-  res.status(200).json(posts)
-})
-
-app.post('/api/posts/', async(req,res) => {
-  const postData = {
-    title: req.body.title,
-    text: req.body.text
-  }
-
-  const post = new Post(postData)
-
-  await post.save();
-  res.status(201).json(post)
 })
 
 
@@ -345,9 +752,12 @@ app.get("/windbound", (req, res) => {
   res.sendFile(__dirname + "/windbound.html")
 })
 
+app.get('/error/403', function (req, res) {
+    res.sendFile(__dirname + "/errors/403.html");
+})
+
 app.get('*', function(req, res){
-  res.sendFile(__dirname + "/404.html");
+  res.sendFile(__dirname + "/errors/404.html");
 })
 
 app.listen(port, () => console.log('Сервер запущен'));
-
