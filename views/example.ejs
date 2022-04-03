@@ -105,6 +105,16 @@
                         
                         <div class="px-4 mt-1">
                             <h3 class="fonts" style="padding:0">Осебе: <b><%= about%></b> </h3>
+
+                            <h3 class="fonts" style="padding:0">Роль: 
+                                <b>
+                                    <%= (role == 'USER') ? 'Пользователь' :
+                                    (role == 'ADMIN') ? 'Администратор' :
+                                    'Постер';
+                                    %>
+                                </b> 
+                            </h3>
+
                             <h3 class="fonts">Зарегистрирован с: <b><%= time %></p></h3>
                         </div>
 
