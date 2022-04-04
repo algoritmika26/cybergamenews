@@ -472,6 +472,7 @@ app.get('/profile/*',  async (req, res) => {
 
     if(me.user_id < users.user_id){
     res.render("example.ejs", {
+      'role':users.Role,
       'sess_sec':req.session.secret_id,
       'about': users.about,
       'user_secret':users.secret_id,
@@ -485,6 +486,7 @@ app.get('/profile/*',  async (req, res) => {
     })
   }else{
     res.render("example.ejs", {
+      'role':users.Role,
       'sess_sec':req.session.secret_id,
       'about': users.about,
       'user_secret':users.secret_id,
