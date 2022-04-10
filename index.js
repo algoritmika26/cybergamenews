@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
 const nodemail = require('nodemailer');
+const fetch = require('node-fetch');
 const port = 3000;
 require('dotenv').config();
 const Chat = require('./models/chats')
@@ -364,6 +365,36 @@ app.post('/posts/create', urlencodedParser, async(req,res) => {
   }
 })
 
+app.get('/sales/', async (req, res) => {
+  let Sales = fetch('https://store.steampowered.com/api/featuredcategories/?l=russian').then(resp => resp.json().then(async body => {
+      console.log(body.specials.items)
+
+
+
+
+      if(!req.session.secret_id) res.render('sales.ejs', {
+        'sales': body.specials.items,
+        'req':req 
+      })
+      else{
+        let users = await user.findOne({
+          secret_id: req.session.secret_id
+        })
+  
+        res.render('sales.ejs', {
+          'sales': body.specials.items,
+          'req':req,
+          'image':users.image_url,
+          'user_id':users.user_id,
+          'user':users
+      })
+    }
+  })
+ )
+})
+
+
+
 app.get('/posts/delete/*', async(req,res) => {
   if(!req.session.secret_id) return res.redirect('/auth/login')
   let link = req.url.slice(14);
@@ -372,7 +403,7 @@ app.get('/posts/delete/*', async(req,res) => {
     id: link
   })
 
-  if(!post) return res.redirect('/')
+  if(!post) return res.redirect('/error/404')
 
   const users = await user.findOne({
     secret_id: post.author_sid
@@ -385,11 +416,9 @@ app.get('/posts/delete/*', async(req,res) => {
   console.log(selfuser)
 
  
-  if(users.user_id != selfuser.user_id) return res.redirect('/')   
+  if(users.user_id != selfuser.user_id && selfuser.Roles != 'ADMIN') return res.redirect('/error/403') 
+
   else{
-
-    // if(selfuser.Roles != 'ADMIN') return res.redirect('/')
-
     await post.remove()
     
     res.redirect('/posts/')
@@ -560,7 +589,7 @@ app.get("/auth/login", (req, res) => {
 
 app.get('/leave' , (req, res) => {
   if (req.session) {
-		// delete session object
+	
 		req.session.destroy((err) => {
 			if (err) {
 				return next(err);
