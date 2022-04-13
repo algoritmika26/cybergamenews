@@ -163,7 +163,7 @@ app.get('/chat/*', async(req, res) => {
   })
 
   if(!chat){
-    let createchat = await new Chat({
+    let createchat = await Chat.create({
       user1: mine_id,
       user2: user2_id
     });
@@ -222,13 +222,26 @@ app.get('/post/*', async(req, res) => {
   const users = await user.findOne({
     secret_id: post.author_sid
   })
-  
+
+  let dates = []
+   
+  for(i=0; i<post.comments.length; i++){
+    let date = new Date(post.comments[i].date)
+    
+    if(date.getMonth()+1 <10){
+    dates.push(`${date.getDate()}.0${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}`)
+    }else{
+      dates.push(`${date.getDate()}.${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}`)
+    }
+  }
+
 
   if(!req.session.secret_id) res.render('post.ejs', {
     'editMode':false,
     "req":req,
     "user": users,
     'post': post,
+    'dates':dates,
     'date': post.datg.toLocaleDateString("ru-RU")   
 })
 
@@ -244,6 +257,7 @@ app.get('/post/*', async(req, res) => {
       'image':selfusers.image_url,
       'user_id':selfusers.user_id,
       'user':users,
+      'dates':dates,
       'selfuser':selfusers,
       'post': post,
       'date': post.datg.toLocaleDateString("ru-RU"),
@@ -367,10 +381,7 @@ app.post('/posts/create', urlencodedParser, async(req,res) => {
 
 app.get('/sales/', async (req, res) => {
   let Sales = fetch('https://store.steampowered.com/api/featuredcategories/?l=russian').then(resp => resp.json().then(async body => {
-      console.log(body.specials.items)
-
-
-
+      // console.log(body.specials.items)
 
       if(!req.session.secret_id) res.render('sales.ejs', {
         'sales': body.specials.items,
@@ -426,6 +437,33 @@ app.get('/posts/delete/*', async(req,res) => {
 })
 
 
+app.post('/comment/*', urlencodedParser, async(req, res) => {
+  if(!req.session.secret_id) return res.redirect('/auth/login')
+  let postId = req.url.slice(9)
+  console.log(postId)
+
+  let post = await Post.findOne({
+    id: postId
+  })
+
+  if(!post) return res.redirect('/404')
+  else{
+    let users = await user.findOne({
+      secret_id: req.session.secret_id
+    })
+
+    post.comments.push({
+      content: req.body.comment,
+      user: users,
+      date: Date.now()
+    })
+    
+    post.save()
+
+    res.redirect(`/post/${postId}`)
+  }
+})
+
 
 app.post('/chat/*', urlencodedParser, async(req, res) => {
   if(!req.session.secret_id) return res.redirect('/auth/login')
@@ -460,6 +498,27 @@ app.post('/chat/*', urlencodedParser, async(req, res) => {
   res.redirect(`/chat/${mine_id}_${user2_id}`)
 })
 
+app.post("/ideas-mail", urlencodedParser, async(req, res) => {
+  let author = await req.body.user
+  let text = await req.body.text
+
+  const poster = nodemail.createTransport({
+    service:'gmail',
+    auth:{
+      user: process.env.MAIL,
+      pass: process.env.PSWRD,
+    }
+  })
+  const mailOptions = {
+    from: `${author}`,
+    to: process.env.MAIL,
+    subject: 'CyberGameNews',
+    text: `${text}`
+  }
+
+  await poster.sendMail(mailOptions)
+})
+
 app.get('/profile/*',  async (req, res) => {
 
   if(!req.session.secret_id) return res.redirect('/auth/login')
@@ -478,15 +537,16 @@ app.get('/profile/*',  async (req, res) => {
       secret_id:req.session.secret_id
     })
 
-    if(me.user_id < users.user_id){
+    if(me.user_id != users.user_id){
     res.render("example.ejs", {
-      'role':users.Role,
+      'role':users.Roles,
       'sess_sec':req.session.secret_id,
       'about': users.about,
       'user_secret':users.secret_id,
       'image_url':users.image_url,
       'username':users.login,
       'name':users.username,
+      'user':users,
       'time': users.dateRegist.toLocaleDateString("ru-RU"),
       'user_id':users.user_id,
       'user_1':me.user_id,
@@ -494,9 +554,10 @@ app.get('/profile/*',  async (req, res) => {
     })
   }else{
     res.render("example.ejs", {
-      'role':users.Role,
+      'role':users.Roles,
       'sess_sec':req.session.secret_id,
       'about': users.about,
+      'user':users,
       'user_secret':users.secret_id,
       'image_url':users.image_url,
       'username':users.login,
@@ -625,10 +686,31 @@ app.post('/settings/sumbit/', urlencodedParser, async(req,res) =>{
   }
 
     users.username=req.body.nick; 
-    users.about=req.body.about
+    users.about=req.body.about;
 
-    users.save()
+
+    if(isNaN(req.body.id)){
+      users.user_id = users.user_id
+    }else{
+      users.user_id = req.body.id
+    }
+
+
+    if(req.body.pswrd != '' && req.body.pswrd > 5){
+      bcrypt.genSalt(5, async function(err, salt) {
+        bcrypt.hash(req.body.pswrd, salt, async function(err, hash) {
+          users.password = hash;
+          console.log(req.body.pswrd)
+          console.log(hash)
+          users.save()
+        });
+      })
+    }else{
+      users.save()
+    }
+
     return res.redirect(`/profile/${users.user_id}`)
+    
   }
 })
 
@@ -673,6 +755,10 @@ app.post("/auth/regist", urlencodedParser, async (req, res) => {
           return rs;
     }
 
+    let colors = ['gold', 'yellow', '#00FF7F', '#3CB371', '#20B2AA', '#4682B4', '#1E90FF', 'blue', 'black', 'brown', '#E6E6FA', 'orange', 'magenta']
+
+    let clr = colors[Math.floor(Math.random() * colors.length)]
+
     req.session.secret_id = secret_id();
 
     let password = req.body.password
@@ -681,6 +767,7 @@ app.post("/auth/regist", urlencodedParser, async (req, res) => {
         let NewUser = await new user({
           login: login,
           username: login,
+          color: clr,
           password: hash,
           user_id: gen_id(),
           secret_id: req.session.secret_id

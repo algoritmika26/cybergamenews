@@ -16,19 +16,37 @@
             <div class="row" style="font-family: 'Montserrat';">
             <form action="/settings/sumbit/" method="post">
                 <div>
-                    <img class="image rounded-circle" height="150" width="150" class="dropdown-item newblock modal-trigger" id="createForm" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" src= <%= image_url %> >
+                    <img class="image" style="border-radius: 50%;" height="150" width="150" class="dropdown-item newblock modal-trigger" id="createForm" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" src= <%= image_url %> >
                 </div>
-            <div class="input_div text-dark">
-                <div class="nick">
-                    <h2 style="margin:0">Никнейм</h2>
-                    <input type="text" class='inputt' name='nick' value="<%= username %>">
+            <div class="row">
+                <div class="col-6">
+                    <div class="input_div text-dark">
+                        <div class="nick">
+                            <h2 style="margin:0">Никнейм</h2>
+                            <input type="text" class='inputt' name='nick' value="<%= username %>">
+                        </div>
+        
+                        <div class="about">
+                            <h2 style="margin:0">О себе</h2>
+                            <input type="text" class='inputt' name='about' value="<%= about %>">                
+                        </div>
+                    </div>
                 </div>
-
-                <div class="about">
-                    <h2 style="margin:0">О себе</h2>
-                    <input type="text" class='inputt' name='about' value="<%= about %>">                
+                <div class="col-6">
+                    <div class="input_div text-dark">
+                        <div class="about">
+                            <h2 style="margin:0">Смена ID</h2>
+                            <input type="text" class='inputt' name='id' value="<%= user_id %>">                
+                        </div>
+        
+                        <div class="about">
+                            <h2 style="margin:0">Пароль</h2>
+                            <input type="text" class='inputt' name='pswrd' placeholder="*">                
+                        </div>
+                    </div>
                 </div>
-                
+            </div>
+            
                 <button class="btn button text-white" type='submit' style="margin-top:10px;">Сохранить</button>
             </form>
 
@@ -76,7 +94,7 @@
         .btn{
             text-decoration: none;
             display: inline-block;
-            width: 120px;
+            width: 350px;
             height: 40px;
             border-radius: 45px;
             font-family: 'Montserrat', sans-serif;
@@ -86,6 +104,7 @@
             letter-spacing: 3px;
             font-weight: 600;
             color: #524f4e;
+            background-color:rgb(0, 59, 168);
             border-color:black;
             box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
             transition: .3s;
@@ -93,11 +112,12 @@
 
         .btn:hover{
             color:white;
-            background-color:black;
+            background-color:rgb(4, 9, 88);
             transform:translateY(5px);
         }
 
         .input_div{
+            margin-bottom: 2vw;
             margin-top:2vw;
             background: white;
             margin-left: auto;
@@ -121,21 +141,13 @@
             border-radius: 45px;
         }
 
-        @keyframes wiggle {
-            0% { transform: rotate(0deg); }
-            80% { transform: rotate(0deg); }
-            85% { transform: rotate(5deg); }
-            95% { transform: rotate(-5deg); }
-            100% { transform: rotate(0deg); }
-        }
-
         .image{
-            animation: none;
+            border-radius: 50%;
         }
 
         .image:hover{
             opacity:0.5;
-            animation: wiggle 0.5s infinite;
+            border-radius: 50%;
         }
 
     </style>

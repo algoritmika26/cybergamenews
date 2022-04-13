@@ -28,7 +28,9 @@ const postSchema = new Schema({
 
   id: String,
 
-  photo2: String
+  photo2: String, 
+  
+  comments: Array
 })
 
 module.exports = mongoose.model('posts', postSchema)

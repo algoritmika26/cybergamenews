@@ -58,14 +58,44 @@
      font-weight: 400;
      text-decoration: none;
    }
-      
+
+   .btn-dark{
+    width:140px;
+    height: 50px;
+    border-radius: 10px;
+   }
+    
+   #comment{
+      height: 50px;
+      width: 1000px;
+      outline: none;
+      border-radius: 15px;
+      border-color: black 
+   }
+   
+
+   @media screen and (max-width: 1300px) {
+
+    #comment{
+        height: 45px;
+        width: 500px;
+        outline: none;
+      }
+
+  }
     @media screen and (max-width: 700px) {
       .newInput{
-      word-break: break-all;
-      font-family: 'Montserrat';
-      height: 10vw;
-      border-radius: 15px;
-      width: 40vw;
+        word-break: break-all;
+        font-family: 'Montserrat';
+        height: 10vw;
+        border-radius: 15px;
+        width: 40vw;
+      }
+
+      #comment{
+        height: 45px;
+        width: 300px;
+        outline: none;
       }
     }
 
@@ -101,10 +131,20 @@
                   <img src=" <%= image %> " alt="mdo" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="/settings">Настройки</a></li>
-                    <li><a class="dropdown-item" href="/profile/<%=user_id%>">Профиль</a></li>
+                  <li><a class="dropdown-item " href="/settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders2" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5ZM12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8Zm9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5Zm1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
+                    </svg> Настройки</a></li>
+                    <li><a class="dropdown-item" href="/profile/<%=user_id%>">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                      </svg> Профиль</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/leave">Выйти</a></li>
+                    <li><a class="dropdown-item" href="/leave">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                        <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z"/>
+                        <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z"/>
+                      </svg> Выйти</a></li>
                 </ul>
               </div>
               <% }else{ %>
@@ -152,6 +192,33 @@
           <p><a class="links" href="/posts/edit/<%= post.id %>">Изменить</a></p>
           <p style="padding-bottom:2vw;"><a class="links" href="/posts/delete/<%= post.id %>">Удалить</a></p>
       </div>
+
+      <div class="comments">
+        <h1 class="text-center text-mont text-white" style="font-family: 'Montserrat';">Комментарии</h1>
+
+        
+          <div class="bg-secondary container text-dark text" style="margin-bottom:2.5vw; border-radius: 15px; margin-top:2vw; padding-top: 1vw; padding-left: 1vw; padding-bottom:1vw; ">
+            <%if(req.session.secret_id) {%>
+            <form id="comForm" action="/comment/<%= post.id%>" method="post" style="margin-bottom: 1vw;">
+                <img src=" <%= image %> " alt="mdo" width="32" height="32" class="rounded-circle">
+              <input name="comment" id="comment" class="text-white bg-dark" type="text" required="" placeholder="Ваш комментарий...">
+              <button type="submit" class="text btn btn-dark text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+              </svg> Отправить</button>
+            </form>
+          <%}%>  
+
+          <div>
+            <%for(var i = 0; i < post.comments.length; i++){ %>
+              <div id="user_clr" style="display: none;"><%= post.comments[i].user.color %></div>
+
+              <p class="text text-white"><a style="text-decoration:none;" href='/profile/<%= post.comments[i].user.user_id %>' ><span class="username" style="font-weight: 900;"><%= post.comments[i].user.username %></span></a> <small>(<%= dates[i] %>)</small>:  <%= post.comments[i].content %></p>
+            <%}%> 
+          </div>
+            
+        </div>
+           
+      </div>
       <%}%> 
   <% }else{ %>
 
@@ -188,10 +255,22 @@
       <button type="submit" class="btn bg-white button" style="display: none; border-radius: 15px;">Сохранить</button>
     </form>
   <%}%> 
+
+  
+
+
   </div>
   </div>
 
   <script>
+    let user_clr = document.getElementById('user_clr').textContent;
+
+    let allusers = document.getElementsByClassName('username').length
+    for(let i = 0; i<allusers; i++){
+      let name = document.getElementsByClassName('username').item(i).style.color = user_clr;
+    }
+    console.log(allusers)
+
     var i = 'inputA';
     $('.toInput').click(function(){
       
