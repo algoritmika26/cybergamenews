@@ -498,27 +498,6 @@ app.post('/chat/*', urlencodedParser, async(req, res) => {
   res.redirect(`/chat/${mine_id}_${user2_id}`)
 })
 
-app.post("/ideas-mail", urlencodedParser, async(req, res) => {
-  let author = await req.body.user
-  let text = await req.body.text
-
-  const poster = nodemail.createTransport({
-    service:'gmail',
-    auth:{
-      user: process.env.MAIL,
-      pass: process.env.PSWRD,
-    }
-  })
-  const mailOptions = {
-    from: `${author}`,
-    to: process.env.MAIL,
-    subject: 'CyberGameNews',
-    text: `${text}`
-  }
-
-  await poster.sendMail(mailOptions)
-})
-
 app.get('/profile/*',  async (req, res) => {
 
   if(!req.session.secret_id) return res.redirect('/auth/login')
