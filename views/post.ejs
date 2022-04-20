@@ -21,12 +21,7 @@
         border-radius: 15px;
     }
 
-    @font-face {
-                font-family: 'Montserrat';
-                font-weight: 100;
-                font-display: swap;
-                src: url('fonts/montserrat/Montserrat-SemiBold.ttf');
-        }
+ 
 
     .text{
         word-break: break-all;
@@ -112,7 +107,11 @@
 
 </style>
 
+
+
 <body class="bg-dark" >
+
+  <div id="post_id" style="display:none;"><%= post.id %></div>
   <div class="container">
     <header class="bg-dark text-white text">
         <div class="container">
@@ -159,38 +158,128 @@
 
     <%if (!editMode) {%>
       <%if (post.photo2) { %>
+
         <div class="bg-white container text-dark" style="margin-bottom:2.5vw; border-radius: 15px; margin-top:2vw; padding-top: 1vw; padding-left: 1vw;">
-                    <h1 style="position: absolute; font-family: 'Montserrat'; font-weight: bold;"><%= post.title %></h1>
+            <div class="row">
+              <div class="col-9">
+                <h1 style="word-break: break-all; margin:0; font-family: 'Montserrat'; font-weight: bold;"><%= post.title %> 
+                  <a class="bg-white" type="submit" id="like">
+                    <span id="default">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                  </svg>
+                </span>
+                 
+                
+                
+                <span id="hidden" style="display:none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                    </svg></a></span>
+                  <span id="counter" class="font-size:0.5vw;"><%= post.likes %></span>
+        </h1>
+
+              <style>
+                #like{
+                  border: none;
+                  text-decoration: none;
+                }
+              </style>
+              </div>
+              <div class="col-3">
                     <h1 style="position: relative; text-align: right; font-family: 'Montserrat'; font-weight:400; font-size:2.15vw; color:gray;">-<a class="author" style="color:gray;" href="/profile/<%= user.user_id %>"><%= user.username %></a> 
                     <span class="date" style="font-size:2vw;">(<%= date %>)</span>  
-                    </h1>    
+                    </h1> 
+              </div>   
+            </div>
                     <h4 class="text sdesc"><%= post.short_desc %></h4>              
                     <hr style="height: 2.5px; color:#212529;">    
                     <img class="img-fluid" src=<%= post.photo_url %> style='width:80%'>
                     <hr style="height: 2.5px; color:#212529;">              
-                    <h4 class="text"><%= post.text %></h4>
+                    <h4 id="post_desc" class="text"><%= post.text %></h4>
                     <hr style="height: 2.5px; color:#212529;"> 
                     <img class="img-fluid" src=<%= post.photo2 %> style='width:80%; padding-bottom:1vw;'>    
                     <hr style="height: 2.5px; margin:0; margin-bottom:1vw; color:#212529;"> 
+
+                    <%if (req.session.secret_id) { %>
                     <p><a class="links" href="/posts/edit/<%= post.id %>">Изменить</a></p>
                     <p style="padding-bottom:2vw;"><a class="links" href="/posts/delete/<%= post.id %>">Удалить</a></p>
-        </div>
+                    <%}%>
+
+                  </div>
+                  
+                    <div class="comments">
+                      <h1 class="text-center text-mont text-white" style="font-family: 'Montserrat';">Комментарии</h1>
+              
+                      
+                        <div class="bg-secondary container text-dark text" style="margin-bottom:2.5vw; border-radius: 15px; margin-top:2vw; padding-top: 1vw; padding-left: 1vw; padding-bottom:1vw; ">
+                          <%if(req.session.secret_id) {%>
+                          <form id="comForm" action="/comment/<%= post.id%>" method="post" style="margin-bottom: 1vw;">
+                              <img src=" <%= image %> " alt="mdo" width="32" height="32" class="rounded-circle">
+                            <input name="comment" id="comment" class="text-white bg-dark" type="text" required="" placeholder="Ваш комментарий...">
+                            <button type="submit" class="text btn btn-dark text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                              <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                            </svg> Отправить</button>
+                          </form>
+                        <%}%>  
+              
+                        <div id="comments">
+                          <%for(var i = 0; i < post.comments.length; i++){ %>
+                            <div class="user_clr" style="display: none;"><%= post.comments[i].user.color %></div>
+              
+                            <p class="text text-white"><a style="text-decoration:none;" href='/profile/<%= post.comments[i].user.user_id %>' ><span class="username" style="font-weight: 900;"><%= post.comments[i].user.username %></span></a> <small>(<%= dates[i] %>)</small>:  <%= post.comments[i].content %></p>
+                          <%}%> 
+                        </div>
+                          
+                      </div>
+                         
+                    </div>
 
       <% }else{ %>
         <div class="bg-white container text-dark" style="margin-bottom:2.5vw; border-radius: 15px; margin-top:2vw; padding-top: 1vw; padding-left: 1vw;">
-          <h1 style="position: absolute; font-family: 'Montserrat'; font-weight: bold;"><%= post.title %></h1>
-          <h1 style="position: relative; text-align: right; font-family: 'Montserrat'; font-weight:400; font-size:2.15vw; color:gray;">-<a class="author" style="color:gray;" href="/profile/<%= user.user_id %>"><%= user.username %></a> 
-          <span class="date" style="font-size:2vw;">(<%= date %>)</span>  
-          </h1> 
+          <div class="row">
+            <div class="col-9">
+              <h1 style="word-break: break-all; margin:0; font-family: 'Montserrat'; font-weight: bold;"><%= post.title %> 
+                <a class="bg-white" type="submit" id="like">
+                  <span id="default">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                </svg>
+              </span>
+               
+              
+              
+              <span id="hidden" style="display:none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                  </svg></a></span>
+                <span id="counter" class="font-size:0.5vw;"><%= post.likes %></span>
+      </h1>
+
+            <style>
+              #like{
+                border: none;
+                text-decoration: none;
+              }
+            </style>
+            </div>
+            <div class="col-3">
+                  <h1 style="position: relative; text-align: right; font-family: 'Montserrat'; font-weight:400; font-size:2.15vw; color:gray;">-<a class="author" style="color:gray;" href="/profile/<%= user.user_id %>"><%= user.username %></a> 
+                  <span class="date" style="font-size:2vw;">(<%= date %>)</span>  
+                  </h1> 
+            </div>   
+          </div>   
           <h4 class="text sdesc"><%= post.short_desc %></h4>                 
           <hr style="height: 2.5px; color:#212529;">    
           <img class="img-fluid" src=<%= post.photo_url %> style='width:80%'>
           <hr style="height: 2.5px; color:#212529;">              
-          <h4 class="text"><%= post.text %></h4>
+          <h4 class="text" id="post_desc"><%= post.text %></h4>
           <hr style="height: 2.5px; margin:0; margin-bottom:1vw; color:#212529;"> 
- 
+
+          <%if (req.session.secret_id) { %>
           <p><a class="links" href="/posts/edit/<%= post.id %>">Изменить</a></p>
           <p style="padding-bottom:2vw;"><a class="links" href="/posts/delete/<%= post.id %>">Удалить</a></p>
+          <%}%>  
       </div>
 
       <div class="comments">
@@ -208,10 +297,9 @@
             </form>
           <%}%>  
 
-          <div>
+          <div id="comments">
             <%for(var i = 0; i < post.comments.length; i++){ %>
-              <div id="user_clr" style="display: none;"><%= post.comments[i].user.color %></div>
-
+              <div class="user_clr" style="display: none;"><%= post.comments[i].user.color %></div>
               <p class="text text-white"><a style="text-decoration:none;" href='/profile/<%= post.comments[i].user.user_id %>' ><span class="username" style="font-weight: 900;"><%= post.comments[i].user.username %></span></a> <small>(<%= dates[i] %>)</small>:  <%= post.comments[i].content %></p>
             <%}%> 
           </div>
@@ -221,7 +309,6 @@
       </div>
       <%}%> 
   <% }else{ %>
-
     <form method="post" action="/posts/edits/<%= post.id%>">
       <%if (post.photo2) { %>
         <div class="bg-white container text-dark" style="margin-bottom:2.5vw; border-radius: 15px; margin-top:2vw; padding-top: 1vw; padding-left: 1vw;">
@@ -233,7 +320,7 @@
                     <hr style="height: 2.5px; color:#212529;">    
                     <img class="img-fluid" src=<%= post.photo_url %> style='width:80%'>
                     <hr style="height: 2.5px; color:#212529;">              
-                    <h4 class="text toInput title desc"><%= post.text %></h4>
+                    <h4 class="text toInput title desc" id="post_desc"><%= post.text %></h4>
                     <hr style="height: 2.5px; color:#212529;"> 
                     <img class="img-fluid" src=<%= post.photo2 %> style='width:80%; padding-bottom:1vw;'>    
         </div>
@@ -248,7 +335,7 @@
           <hr style="height: 2.5px; color:#212529;">    
           <img class="img-fluid" src=<%= post.photo_url %> style='width:80%'>
           <hr style="height: 2.5px; color:#212529;">              
-          <h4 class="text toInput desc"><%= post.text %></h4>
+          <h4 class="text toInput desc" id="post_desc"><%= post.text %></h4>
           <hr style="height: 2.5px; color:#212529;"> 
         </div>
       <%}%>
@@ -256,18 +343,23 @@
     </form>
   <%}%> 
 
-  
-
-
   </div>
   </div>
 
   <script>
-    let user_clr = document.getElementById('user_clr').textContent;
+    let post_id = document.getElementById('post_id').textContent;
+
+    let post_desc = document.getElementById('post_desc').textContent
+    let newdesc = post_desc.replace(/\\n/g, '<br>');
+
+    document.getElementById('post_desc').innerHTML = newdesc;
+
+    let counter = document.getElementById('counter')
+    let user_clr = document.getElementsByClassName('user_clr').textContent;
 
     let allusers = document.getElementsByClassName('username').length
     for(let i = 0; i<allusers; i++){
-      let name = document.getElementsByClassName('username').item(i).style.color = user_clr;
+      let name = document.getElementsByClassName('username').item(i).style.color = 'rgb('+document.getElementsByClassName('user_clr').item(i).textContent + ')';
     }
     console.log(allusers)
 
@@ -288,6 +380,29 @@
         $(this).replaceWith("<input name='sdesc' class='newInput sdesc' value='" + $(this).text() + "'>");
       }
     });
+
+    $('#like').click(
+      function(){
+        $.ajax({
+          	url: `/like/${post_id}`,
+          	method: 'get',      
+	          dataType: 'json',        
+            success: (response) => { 
+             if(response.Success == 'готово!'){
+              document.getElementById('default').style.display='none';
+              document.getElementById('hidden').style.display='block';
+              counter.textContent = Number(counter.textContent) + 1;
+             }else{
+              document.getElementById('hidden').style.display='none';
+              document.getElementById('default').style.display='block';
+              counter.textContent = Number(counter.textContent) - 1;              
+             }
+          }          
+	      })
+      }
+    )
+
+
   </script>
 
 </body>

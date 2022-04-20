@@ -16,6 +16,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const jsonParser = express.json();
 const Post = require('./models/posts');
+const Groups = require('./models/groups');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // app.use(cookieParser());
@@ -53,7 +54,32 @@ app.get("/",  async (req, res) => {
   }
 })
 
+app.get('/profile/delete/*',async (req,res) => {
+  if (!req.session.secret_id) return res.redirect('/auth/login')
+
+  let users = await user.findOne({
+    secret_id:req.session.secret_id
+  })
+
+  Post.find().then((posti) => {
+    for(let i=0; i<posti.length; i++){
+      if(posti[i].author_sid == users.secret_id){
+        console.log(posti[i])
+        posti[i].remove();
+      }
+    }
+  })
+
+  users.deleteOne();
+  req.session.secret_id = null;
+
+
+  return res.redirect('/')
+})
+
+
 app.get('/secretadminsuperlink/', async(req, res) => {
+
   if (!req.session.secret_id) return res.redirect('/auth/login')
   else{
       const User = await user.findOne({
@@ -63,24 +89,50 @@ app.get('/secretadminsuperlink/', async(req, res) => {
         res.redirect('/error/403')
     }else{
 
-      let admusers = [];
-      let userroles = [];
 
-      let users = await user.find().sort().exec(async function(err, sorted_users) {
-        for(i=0; i < sorted_users.length; i++){
-          if(sorted_users[i].Roles == 'ADMIN'){
-            admusers.push(sorted_users[i].login)
+
+      user.find().then((users) => {
+
+        let posters = [];
+        let admusers = [];
+
+        for(var i=0; i<users.length; i++){
+         if(users[i].Roles == 'ADMIN'){
+            admusers.push(users[i]);
+          }
+          
+          if(users[i].Roles == 'POSTER'){
+            posters.push(users[i])
           }
         }
-      })
 
-      console.log(admusers, userroles)
-
-      res.render('adminpanel.ejs', {
-        req:req,
-        Users: admusers,
-        UsersRoles: userroles
+        res.render('adminpanel.ejs', {
+          req:req,
+          Posters: posters,
+          Admins: admusers
+        })
       })
+    }
+  }
+})
+
+ 
+
+app.get('/removerole/*', async(req, res) =>{
+  if (!req.session.secret_id) return res.redirect('/auth/login')
+  let secret_id = req.url.slice(12)
+  console.log(secret_id)
+
+  let users = await user.findOne({
+    secret_id: secret_id
+  })
+
+  if(!users) return res.redirect('/404')
+  else{
+    if(users.roles != 'USER'){
+      users.Roles = 'USER';
+      users.save();
+      res.redirect('/secretadminsuperlink/');  
     }
   }
 })
@@ -111,6 +163,7 @@ app.get('/secretadminsuperlink/admins', async(req, res) => {
   if (User.Roles != 'ADMIN') {
       res.redirect('/error/403')
   }else{
+
     res.render('newAdmins.ejs', {
       req:req
     })
@@ -241,6 +294,7 @@ app.get('/post/*', async(req, res) => {
     "req":req,
     "user": users,
     'post': post,
+    'alreadyLiked': true,
     'dates':dates,
     'date': post.datg.toLocaleDateString("ru-RU")   
 })
@@ -251,9 +305,18 @@ app.get('/post/*', async(req, res) => {
       secret_id: req.session.secret_id
     })
 
+    var alreadyLiked = false;
+
+    for(var i = 0; i < selfusers.alreadyLiked.length; i++){
+      if(selfusers.alreadyLiked[i] === post.id){
+        alreadyLiked = true
+      }
+    }
+
     res.render('post.ejs', {
       'editMode':false,
       'req':req,
+      'alreadyLiked': alreadyLiked,
       'image':selfusers.image_url,
       'user_id':selfusers.user_id,
       'user':users,
@@ -317,9 +380,15 @@ app.post('/secretadminsuperlink/posters', urlencodedParser, async (req, res) => 
         return res.sendFile(__dirname + "/errors/404.html");
       }      
 
+      if(User.Roles == 'POSTER'){
+        User.Roles = 'USER';
+        await User.save()
+        return res.redirect('/secretadminsuperlink');
+      }
+
       User.Roles = 'POSTER'
       await User.save()
-      return res.redirect('/');
+      return res.redirect('/secretadminsuperlink');
 })
 
 app.post('/secretadminsuperlink/admins', urlencodedParser, async (req, res) => {
@@ -331,9 +400,15 @@ app.post('/secretadminsuperlink/admins', urlencodedParser, async (req, res) => {
       return res.sendFile(__dirname + "/errors/404.html");
     }
 
+    if(User.Roles == 'ADMIN'){
+      User.Roles = 'USER';
+      await User.save()
+      return res.redirect('/secretadminsuperlink');
+    }
+
     User.Roles = 'ADMIN'
     await User.save()
-    return res.redirect('/');
+    return res.redirect('/secretadminsuperlink');
 })
 
 app.post('/posts/create', urlencodedParser, async(req,res) => {
@@ -345,15 +420,17 @@ app.post('/posts/create', urlencodedParser, async(req,res) => {
 
   let id = Math.floor(Math.random() * 7800 + 500)
 
+  let text = req.body.text
+
   if(!req.body.image2){
 
     let newpost = await Post.create({
       title:req.body.title,
       date: Date.now(),
-      photo_url:req.body.photo_url,
-      text:req.body.text,
-      type:req.body.type,
-      short_desc:req.body.short_text,
+      photo_url: req.body.photo_url,
+      text: text,
+      type: req.body.type,
+      short_desc: req.body.short_text,
       id:id,
       author_sid: req.session.secret_id
     })
@@ -366,11 +443,11 @@ app.post('/posts/create', urlencodedParser, async(req,res) => {
     let newpost = await Post.create({
       title:req.body.title,
       date: Date.now(),
-      photo_url:req.body.photo_url,
+      photo_url: req.body.photo_url,
       photo2: req.body.image2,
-      text:req.body.text,
-      type:req.body.type,
-      short_desc:req.body.short_text,
+      text: text,
+      type: req.body.type,
+      short_desc: req.body.short_text,
       id:id,
       author_sid: req.session.secret_id
     })
@@ -440,7 +517,7 @@ app.get('/posts/delete/*', async(req,res) => {
 app.post('/comment/*', urlencodedParser, async(req, res) => {
   if(!req.session.secret_id) return res.redirect('/auth/login')
   let postId = req.url.slice(9)
-  console.log(postId)
+ 
 
   let post = await Post.findOne({
     id: postId
@@ -460,7 +537,7 @@ app.post('/comment/*', urlencodedParser, async(req, res) => {
     
     post.save()
 
-    res.redirect(`/post/${postId}`)
+    res.redirect(`/post/${postId}#comments`)
   }
 })
 
@@ -470,7 +547,7 @@ app.post('/chat/*', urlencodedParser, async(req, res) => {
 
   let mine_id = req.url.slice(6).split('_')[0]
   let user2_id = req.url.split('_')[1]
-  console.log(mine_id + ' ' + user2_id)
+
 
   const chat = await Chat.findOne({
     user1: mine_id,
@@ -498,12 +575,12 @@ app.post('/chat/*', urlencodedParser, async(req, res) => {
   res.redirect(`/chat/${mine_id}_${user2_id}`)
 })
 
+
 app.get('/profile/*',  async (req, res) => {
 
   if(!req.session.secret_id) return res.redirect('/auth/login')
 
   let unique_id = req.url.slice(9)
-  console.log(unique_id)
 
   const users = await user.findOne({
     user_id: unique_id
@@ -572,6 +649,71 @@ app.get('/settings', async(req, res) => {
 
 })
 
+app.get('/like/*', urlencodedParser, async (req, res) => {
+  
+  if(!req.session.secret_id) return res.redirect('/auth/login');
+
+  let post_id = req.url.slice(6);
+
+  let post = await Post.findOne({
+    id: post_id
+  });
+
+  if(!post) return res.redirect('404')
+  else{
+
+    let users = await user.findOne({
+      secret_id: post.author_sid
+    })
+  
+    let selfusers = await user.findOne({
+      secret_id: req.session.secret_id
+    })
+
+    for(var i=0; i< selfusers.alreadyLiked.length; i++){
+      if(selfusers.alreadyLiked[i] === post_id){
+      
+        let dates = []
+         
+        for(i=0; i < post.comments.length; i++){
+          let date = new Date(post.comments[i].date)
+          
+          if(date.getMonth()+1 <10){
+          dates.push(`${date.getDate()}.0${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}`)
+          }else{
+            dates.push(`${date.getDate()}.${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}`)
+          }
+        }
+
+        post.likes--; post.save();
+        selfusers.alreadyLiked.splice([selfusers.alreadyLiked[i], 1]);
+        selfusers.save();
+        return res.send({'Success' : 'уже'})
+      }
+    }
+
+    let dates = []
+         
+    for(i=0; i < post.comments.length; i++){
+      let date = new Date(post.comments[i].date)
+      
+      if(date.getMonth()+1 <10){
+      dates.push(`${date.getDate()}.0${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}`)
+      }else{
+        dates.push(`${date.getDate()}.${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}`)
+      }
+    }
+
+
+   selfusers.alreadyLiked.push(post_id)
+   selfusers.save()
+ 
+
+    post.likes++; post.save();
+
+    res.send({'Success': 'готово!'})
+  }
+})
 
 
 app.post('/settings/avatar/*', urlencodedParser, async (req, res) => {
@@ -671,7 +813,18 @@ app.post('/settings/sumbit/', urlencodedParser, async(req,res) =>{
     if(isNaN(req.body.id)){
       users.user_id = users.user_id
     }else{
-      users.user_id = req.body.id
+      users.user_id = req.body.id;
+
+      // Post.find().then(async post => {
+      //   for(var i=0; i<post.length; i++){
+      //     for(var a = 0; a < post[i].comments.length; a++){
+      //       if(post[i].comments[a].user.secret_id == req.session.secret_id){
+      //         post[i].comments[a].user.user_id = req.body.id;
+      //         post[i].comments[a].user.username = req.body.nick;
+      //       }
+      //     }
+      //   }
+      // })
     }
 
 
@@ -693,6 +846,26 @@ app.post('/settings/sumbit/', urlencodedParser, async(req,res) =>{
   }
 })
 
+
+app.get('/groups/', async(req, res) => {
+  let groups = []
+
+  Groups.find().then(group => {
+    for(let i=0; i < group.length; i++){
+      groups.push(group)
+    }
+
+    if(!group.length){
+      return console.log('нету')
+    }
+  })
+
+  res.render('groups.ejs', {
+    req: req,
+    groups: groups
+  })
+})
+
 app.post("/auth/regist", urlencodedParser, async (req, res) => {
     let login = req.body.login
 
@@ -709,12 +882,6 @@ app.post("/auth/regist", urlencodedParser, async (req, res) => {
     }
 
     else{
-
-    console.log("_______________");
-    console.log(req.body.login);
-    console.log("_______________");
-    console.log(req.body.password);
-    console.log("_______________");
 
     function gen_id(){
       var abc = "1234567890";
@@ -734,9 +901,9 @@ app.post("/auth/regist", urlencodedParser, async (req, res) => {
           return rs;
     }
 
-    let colors = ['gold', 'yellow', '#00FF7F', '#3CB371', '#20B2AA', '#4682B4', '#1E90FF', 'blue', 'black', 'brown', '#E6E6FA', 'orange', 'magenta']
+    let colors = require('./colors.json')
 
-    let clr = colors[Math.floor(Math.random() * colors.length)]
+    let clr = colors[Math.floor(Math.random() * colors.length)].rgb
 
     req.session.secret_id = secret_id();
 
@@ -752,7 +919,6 @@ app.post("/auth/regist", urlencodedParser, async (req, res) => {
           secret_id: req.session.secret_id
         })
         await NewUser.save();
-        console.log(NewUser)
       });
 
 
@@ -802,8 +968,23 @@ app.get("/igra-witcher3", (req, res) => {
   res.sendFile(__dirname + "/witcher3.html")
 })
 // Это страница metro-exodus
-app.get("/metro-exodus", (req, res) => {
-  res.sendFile(__dirname + "/metro_exodus.html")
+app.get("/metro-exodus", async(req, res) => {
+  if(!req.session.secret_id) res.render('./games/metro_exodus.ejs', {"req":req})
+  else{
+    const User = await user.findOne({
+      secret_id: req.session.secret_id
+    })
+    try{
+      res.render('./games/metro_exodus.ejs', { 
+        'req':req,
+        'image':User.image_url,
+        'user_id':User.user_id,
+        'user':User
+      })
+    } catch{
+      res.redirect('/auth/login')
+    }
+  }
 })
 
 // Это страница идей и предложений, мб попозжа!)

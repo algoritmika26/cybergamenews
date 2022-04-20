@@ -45,20 +45,22 @@
     </div>
 
     <script>
-        let ids = document.querySelector('.ids').textContent
-        console.log(ids)
+        let ids = document.querySelector('.ids').textContent;
+        console.log(ids);
 
         $(document).ready(() => {
                 $("#chat").submit((event) => {
                     event.preventDefault();
                     $.ajax({
                         type: 'POST',
-                        url: `/chat/${ids}`,
+                        url: `dd`,
                         data: $('#chat').serialize(),
                         dataType: "json",
-                        resp: (response) => {
+                        success: (response) => {
+                        if(response.Success == 'Успешно'){
                             console.log('успещно')
                     }
+                }
                 })
             })
         })    
