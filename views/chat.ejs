@@ -1,71 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <sscript src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    
-    <title>chat</title>
+<html>
+  <head>
+    <title>Чат с <%= anotheruser.username %> | CGN </title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <style>
-        .form-control{
-            width: 450px;
-            height: 300px;
-            background-color: azure;
-            border-radius: 10px;
-            box-shadow: 10px 5px 5px  red;
-        }
+      .text-mont{
+        font-family: 'Montserrat';
+      }
+
+      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #input:focus { outline: none; }
+      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages > li { padding: 0.5rem 1rem; }
+
+      .my, .his{
+        border-radius: 30%;
+        margin-top:1vw;
+        width: 150px;
+        background-color: #333;
+        word-break: break-all;
+      }
+
+      .time{
+        color:gray;
+      }
+
+      .my{
+        margin-left:50vw;
+      }
     </style>
-</head>
-<body class="text-dark bg-dark">
-    <div class="container">
-        <div id="messages">
-            <div class="form-group">
-                <textarea readonly class="form-control">
-                    <% for(var i=0; i < historyChat.length; i++) { %>
-                        <%= historyChat[i].user %>- <%= historyChat[i].message %>
-                    <% } %>
-                </textarea>
-              </div>
-        </div>
+  </head>
+  <body class="bg-dark text-mont text-white">
+    <div id="me" style="display:none;"><%= req.session.secret_id %></div>
+    <div id="ouruser"><%= anotheruser.username %></div>
+    <div id="user1" style="display:none;"><%= user1_id %></div>
+    <div id="user2" style="display:none;"><%= user2_id %></div>
 
-        <div class="input-msg">
-            <form id="chat" method="post">
-                <input class="inputField input-group-text my-3" name='chat' required="" placeholder="Введите сообщение" aria-describedby="emailHelp">
-                <button type='submit' class="btn button send btn-success my-1">Отправить</button>
-            </form>
-        </div>
+    <span id="dodo"></span>
+    <ul id="messages">
+      <% for(var i=0; i < history.length; i++) { %>
+        <% if(req.session.secret_id == history[i].author) {%>  
+          <li class="my"><%= history[i].msg %> <span class="time"><%= history[i].date %></span></li>
+        <%}else{%> 
+          <li class="his"><%= history[i].msg %> <span class="time"><%= history[i].date %></span></li>
+        <%}%>
+      <%}%>
+    </ul>
 
-        <p class="ids" style="display:none;"><%= user1%>_<%= user2 %></p>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
 
 
-    </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-        let ids = document.querySelector('.ids').textContent;
-        console.log(ids);
+      var socket = io();
 
-        $(document).ready(() => {
-                $("#chat").submit((event) => {
-                    event.preventDefault();
-                    $.ajax({
-                        type: 'POST',
-                        url: `dd`,
-                        data: $('#chat').serialize(),
-                        dataType: "json",
-                        success: (response) => {
-                        if(response.Success == 'Успешно'){
-                            console.log('успещно')
-                    }
-                }
-                })
-            })
-        })    
+      var messages = document.getElementById('messages');
+      var form = document.getElementById('form');
+      var input = document.getElementById('input');
 
+
+      $('#messages').on('keydown keyup', function(){
+        socket.emit('typing', document.getElementById('ouruser').textContent);
+      })
+
+      socket.on('typing', name => {
+        if(name != document.getElementById('ouruser').textContent){
+          $("#dodo").empty();
+          var msg = $('<b>' + name + ' печатает сообщение...</b>');
+          $("#dodo").last().append(msg);
+          msg.fadeOut(3000, function() {$(this).remove()});
+        }
+      })
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit('chat message', {msg: input.value, user1: document.getElementById('user1').textContent, user2: document.getElementById('user2').textContent, author: document.getElementById('me').textContent, date: Date.now() });
+          input.value = '';
+        }
+      });
+
+      socket.on('chat message', function(msg) {
+        if(msg.user1 == document.getElementById('user1').textContent && msg.user2 == document.getElementById('user2').textContent){
+          var item = document.createElement('li');
+          item.textContent = msg.msg;
+          item.classList.add('my');
+          
+          var timer = document.createElement('span')
+          timer.textContent = ` ${new Date().getHours()}:${new Date().getMinutes()}`
+          item.appendChild(timer)
+
+          messages.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+        }
+      });
     </script>
-    
-</body>
+  </body>
 </html>

@@ -17,6 +17,11 @@
             border-radius: 8px;
             cursor: pointer
         }
+        .shapka{
+            border-radius: 10px;
+            width: 35vw;
+            height: 20vw;
+        }
         .card:before {
             content: "";
             position: absolute;
@@ -104,13 +109,16 @@
             <div class="col-md-7">
                 <div class="card p-3 py-4">
                     <div class="text-center">
-
-                    <img class="rounded-circle" height="150" width="150" src= <%= image_url %>>
+                    <div>
+                        <img class="shapka" src='http://cybergamenews.ru/<%= user.image_url %>'>
+                        <img class="rounded-circle" id="avatar" style="position: relative;  bottom: 5vw; border-style: solid;" height="150" width="150" src='http://cybergamenews.ru/<%= user.image_url %>'>
+                    </div>
+                    
 
                     <div id="user_clr" style="display: none;"><%= user.color %></div>
 
-                    <div class="text-center mt-3">
-                            <h3 class="mt-2 mb-0 name" style="padding:0,0,3px; font-weight: bold;"><%= name %> <span class="badge rounded-pill bg-secondary"></span></h3>  
+                    <div class="text-center mt-1" style="position: relative; bottom: 3vw;">
+                            <h3 class="mt-1 mb-0 name" style="padding:0,0,3px; font-weight: bold;"><%= name %> <span class="badge rounded-pill bg-secondary"></span></h3>  
                             
                         <div class="px-4">
                             <h5 class="fonts" style="padding:0">Осебе: <b><%= about%></b> </h5>
@@ -171,6 +179,7 @@
         let user_clr = document.getElementById('user_clr').textContent;
 
         let name = document.getElementsByClassName('name').item(0).style.color = `rgb(${user_clr})`
+        document.getElementById('avatar').style.borderColor = `rgb(${user_clr})`
         console.log(`rgb(${user_clr})`)
     </script>
 </body>

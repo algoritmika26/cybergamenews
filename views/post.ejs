@@ -21,7 +21,13 @@
         border-radius: 15px;
     }
 
- 
+    #default{
+      color:gray;
+    }
+
+    #hidden{
+      color:red;
+    }
 
     .text{
         word-break: break-all;
@@ -187,7 +193,7 @@
               </style>
               </div>
               <div class="col-3">
-                    <h1 style="position: relative; text-align: right; font-family: 'Montserrat'; font-weight:400; font-size:2.15vw; color:gray;">-<a class="author" style="color:gray;" href="/profile/<%= user.user_id %>"><%= user.username %></a> 
+                    <h1 style="position: relative; text-align: right; font-family: 'Montserrat'; font-weight:400; font-size:2.15vw; color:gray;">-<a class="author" style="color:gray;" href="/profile/<%= users.user_id %>"><%= user.username %></a> 
                     <span class="date" style="font-size:2vw;">(<%= date %>)</span>  
                     </h1> 
               </div>   
@@ -215,7 +221,7 @@
                         <div class="bg-secondary container text-dark text" style="margin-bottom:2.5vw; border-radius: 15px; margin-top:2vw; padding-top: 1vw; padding-left: 1vw; padding-bottom:1vw; ">
                           <%if(req.session.secret_id) {%>
                           <form id="comForm" action="/comment/<%= post.id%>" method="post" style="margin-bottom: 1vw;">
-                              <img src=" <%= image %> " alt="mdo" width="32" height="32" class="rounded-circle">
+                              <img src="http://cybergamenews.ru/<%= image %>" alt="mdo" width="32" height="32" class="rounded-circle">
                             <input name="comment" id="comment" class="text-white bg-dark" type="text" required="" placeholder="Ваш комментарий...">
                             <button type="submit" class="text btn btn-dark text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
                               <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
@@ -289,7 +295,7 @@
           <div class="bg-secondary container text-dark text" style="margin-bottom:2.5vw; border-radius: 15px; margin-top:2vw; padding-top: 1vw; padding-left: 1vw; padding-bottom:1vw; ">
             <%if(req.session.secret_id) {%>
             <form id="comForm" action="/comment/<%= post.id%>" method="post" style="margin-bottom: 1vw;">
-                <img src=" <%= image %> " alt="mdo" width="32" height="32" class="rounded-circle">
+                <img src="http://cybergamenews.ru/<%= image %>" alt="mdo" width="32" height="32" class="rounded-circle">
               <input name="comment" id="comment" class="text-white bg-dark" type="text" required="" placeholder="Ваш комментарий...">
               <button type="submit" class="text btn btn-dark text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
                 <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
@@ -342,6 +348,8 @@
       <button type="submit" class="btn bg-white button" style="display: none; border-radius: 15px;">Сохранить</button>
     </form>
   <%}%> 
+
+  <% if(!editMode) { %><div id="alreadyLiked" style="display:none;"><%= alreadyLiked %></div> <%}%>
 
   </div>
   </div>
@@ -401,6 +409,14 @@
 	      })
       }
     )
+
+
+    let likedOrNot = document.getElementById('alreadyLiked').textContent;
+
+    if(likedOrNot == 'true'){
+      document.getElementById('hidden').style.display = 'block';
+      document.getElementById('default').style.display = 'none';
+    }
 
 
   </script>

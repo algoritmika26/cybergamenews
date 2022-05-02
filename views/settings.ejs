@@ -7,18 +7,68 @@
     <title>Настройки <%= name %></title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=-PqZOdE39LjhUiV5v95bkuh3zEMyO2jlSyaxewit4dUTxir1DUfu4yIjMqG9wCJjkWwEZwAxEFDUAOaPD9vuzCfFT4gACSALNWNxpZconQVRI8FNpSGGg15y5ts48hnt6deG6WB8DHDIDXMV-enPkA" charset="UTF-8"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 </head>
 <body class="bg-dark text-white text-center">
+    <div class="toast-container position-absolute top-0 end-0 p-3 " style="z-index: 11;">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-info">
+
+            <strong class="me-auto"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
+            <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+            </svg>  Система</strong>
+            <small>Только что</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-dark bg-info text-center" id="errors">
+            
+        </div>
+        </div>
+    </div>
         <div class="container">
             <div class="row" style="font-family: 'Montserrat';">
-            <form action="/settings/sumbit/" method="post">
-                <div>
-                    <img class="image" style="border-radius: 50%;" height="150" width="150" class="dropdown-item newblock modal-trigger" id="createForm" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" src= <%= image_url %> >
+            <form action="/upload" method="post" enctype="multipart/form-data">
+
+                <div class="image-upload">
+                    <style>
+                        .image-upload>input {
+                            display: none;
+                        }
+                    </style>
+
+                    <label for="avatarinput" >
+                        <img id="avatar" class="image" style="border-radius: 50%;" height="150" width="150" id="createForm" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" src= <%= image_url %> >
+                    </label>
+                    <input accept=".jpg,.jfif,.jpeg,.png,.gif" type="file" name="avatar" id="avatarinput"  onchange="readfichier()"> 
+                    <button type="submit" class="button btn text-white bg-success" id="avtshr" style="display:none;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                      </svg></button>
                 </div>
+
+                <script>
+                    $("input[type=file]").on('change',function(element){
+                            let file = element.target.files[0];
+                
+
+                            document.getElementById('avtshr').style.display = 'block';
+                            // FileReader support
+                            if (FileReader && file) {
+                                var fr = new FileReader();
+                                fr.onload = function () {
+                                    $('#avatar').attr('src', fr.result);
+                                }
+                                fr.readAsDataURL(file);
+                            }}
+                        );
+                        
+                </script>
+            </form>
+
+        <form action="/settings/sumbit/" id="form1" method="post">                
             <div class="row">
                 <div class="col-6">
                     <div class="input_div text-dark">
@@ -37,7 +87,7 @@
                     <div class="input_div text-dark">
                         <div class="about">
                             <h2 style="margin:0">Смена ID</h2>
-                            <input type="text" class='inputt' name='id' value="<%= user_id %>">                
+                            <input type="text" class='inputt' id="user_id" name='id' value="<%= user_id %>">                
                         </div>
         
                         <div class="about">
@@ -47,78 +97,28 @@
                     </div>
                 </div>
             </div>
-
+            
                 <button class="btn1 button text-white" type='submit' style="margin-top:10px;">Сохранить</button>
             </form>
-            
-            <button class="btn button text-white" type='submit' style="margin: auto; margin-top:10px;">Удалить аккаунт</button>
 
-            
             </div>
-
-        <div class= "modal fade text-white" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-dark">
-                <h5 class="modal-title text-white " id="exampleModalLabel">Изменения фотографии</h5>
-                </div>
-                <div class="modal-body bg-dark">
-            <form method="post" action="/settings/avatar/<%= user_id %>">
-                    <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label text-white">Ссылка на новую фотографию:</label>
-                    <input type="text" name="photo" required="" class="form-control" id="recipient-name">
-                    </div>
-                </div>
-                <div class="modal-footer bg-dark">
-                <button type="button" class="btn1 btn-secondary text-white" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
-                <button type="submit" class="btn1 btn-primary text-white">Изменить</button>
-                </div>
-            </form>
-            </div>
-            </div>
-        </div>
         </div>
 
         </div>
-    <p id="userid" style="display: none;"><%= user_id %></p>
-
     </div>
-
 
 
     <style>
 
-        .btn, .btn1{
-            padding:0;
+        .btn{
+ 
+            left: 50%;
+            transform: translate(50%, 50%);
+            position: absolute;
         }
 
         .container{
             padding-top:2vw;
-        }
-
-        .btn{
-            text-decoration: none;
-            display: inline-block;
-            width: 350px;
-            height: 40px;
-            border-radius: 45px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 11px;
-            text-transform: uppercase;
-            text-align: center;
-            letter-spacing: 3px;
-            font-weight: 600;
-            color: #524f4e;
-            background-color:#dc3545;
-            border-color:black;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
-            transition: .3s;
-        }
-
-        .btn:hover{
-            color:white;
-            background-color:#dc3546c3;
-            transform:translateY(5px);
         }
 
         .btn1{
@@ -163,8 +163,6 @@
             padding-top:1vw;
         }
 
-
-
         .inputt{
             width:15vw;
             padding-left:15px;
@@ -183,17 +181,30 @@
         }
 
     </style>
-
     <script>
-
-
-        $('.btn').on('click', () => {
-
-
-            let userid = document.getElementById('userid').textContent;
-
-            window.location.replace(`/profile/delete/${userid}`)
-        })
+        var toastLiveExample = document.getElementById('liveToast')
+        
+        $(document).ready(() => {
+            $("#form1").submit((event) => {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/sumbit/',
+                    data: $('#form1').serialize(),
+                    dataType: "json",
+                        success: (response) => {
+                            if(response.Success == 'Успешно'){
+                                let id = document.getElementById('user_id').value
+                                return window.location.replace(`/profile/${id}`);
+                            }else{
+                            var toast = new bootstrap.Toast(toastLiveExample)
+                            document.getElementById("errors").innerHTML = response.Success;
+                            toast.show()
+                        }
+                    }
+                })
+            });
+        });
     </script>
 </body>
 </html>
