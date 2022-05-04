@@ -32,6 +32,8 @@ mongoose.connect(process.env.BD_LINK, {
 
 const multer  = require("multer");
 
+ 
+
 // Это главная страница сайта
 app.get("/", async (req, res) => {
   if (!req.session.secret_id) res.render("index.ejs", { req: req });
@@ -116,14 +118,13 @@ app.get('/chats', async (req,res) => {
 
   let chats = await user.findOne({
     secret_id: req.session.secret_id
-  })
+  }) // я
 
   let ntu = []
 
   for(let i=0; i<chats.newchats.length; i++){
 
     if(chats.newchats.length == null) return console.log('ничего нету')
-
 
     if(req.session.secret_id == chats.newchats[i].split('_')[0]){
       let user2 = await user.findOne({
@@ -132,11 +133,16 @@ app.get('/chats', async (req,res) => {
 
       ntu.push(user2)
     }else{
-      ntu.push(chats)
+      let user2 = await user.findOne({
+        secret_id: chats.newchats[i].split('_')[0]
+      })
+
+      ntu.push(user2)
     }
   }
 
-  console.log(ntu)
+  let chatmsgs = [];
+  
 
   res.render('chats.ejs', {
     chats: chats.newchats,
@@ -306,8 +312,6 @@ app.get("/chat/*", async (req, res) => {
     secret_id: user2_id
   })
 
-
-
   res.render('chat.ejs', {
     req:req,
 
@@ -390,6 +394,7 @@ app.get("/post/*", async (req, res) => {
       editMode: false,
       req: req,
       user: users,
+      adminMode:false,
       post: post,
       alreadyLiked: true,
       dates: dates,
@@ -408,9 +413,14 @@ app.get("/post/*", async (req, res) => {
       }
     }
 
+    let adminMode = false;
+    
+    if(selfusers.Roles == 'ADMIN') adminMode=true; 
+
     res.render("post.ejs", {
       editMode: false,
       req: req,
+      adminMode: adminMode,
       alreadyLiked: alreadyLiked,
       image: selfusers.image_url,
       user_id: selfusers.user_id,
@@ -487,6 +497,26 @@ app.post(
     return res.redirect("/secretadminsuperlink");
   }
 );
+
+app.get('/findUser/*', (req, res) => {
+  let url = req.url;
+  let userNickname = url.slice(10);
+ 
+
+  let users = [];
+                 
+  user.find().then(useri => {
+    for(let i=0; i<useri.length; i++){
+      if(useri[i].username == userNickname){
+        users.push(useri[i]);
+      }
+    }
+
+
+    res.send({'success': users})
+  })
+})
+
 
 app.post("/secretadminsuperlink/admins", urlencodedParser, async (req, res) => {
   if (!req.session.secret_id) return res.redirect("/auth/login");
@@ -629,37 +659,6 @@ app.post("/comment/*", urlencodedParser, async (req, res) => {
   }
 });
 
-// app.post("/chat/*", urlencodedParser, async (req, res) => {
-//   if (!req.session.secret_id) return res.redirect("/auth/login");
-
-//   let mine_id = req.url.slice(6).split("_")[0];
-//   let user2_id = req.url.split("_")[1];
-
-//   const chat = await Chat.findOne({
-//     user1: mine_id,
-//     user2: user2_id,
-//   });
-
-//   if (!chat) {
-//     let createchat = await new Chat({
-//       user1: mine_id,
-//       user2: user2_id,
-//     });
-
-//     createchat.save();
-//   }
-
-//   const users = await user.findOne({
-//     secret_id: req.session.secret_id,
-//   });
-
-//   let chats = req.body.chat;
-
-//   chat.messagehistory.push({ message: chats, user: users.username });
-//   await chat.save();
-
-//   res.redirect(`/chat/${mine_id}_${user2_id}`);
-// });
 
 app.get("/profile/*", async (req, res) => {
   if (!req.session.secret_id) return res.redirect("/auth/login");
@@ -801,29 +800,29 @@ app.get('/like/*', urlencodedParser, async (req, res) => {
   }
 })
 
-app.post("/settings/avatar/*", urlencodedParser, async (req, res) => {
-  if (!req.session.secret_id) return res.redirect("/auth/login");
+// app.post("/settings/avatar/*", urlencodedParser, async (req, res) => {
+//   if (!req.session.secret_id) return res.redirect("/auth/login");
 
-  let users = await user.findOne({
-    secret_id: req.session.secret_id,
-  });
+//   let users = await user.findOne({
+//     secret_id: req.session.secret_id,
+//   });
 
-  if (!users) return res.redirect("/auth/login");
-  else {
-    let link = req.body.photo.split(".");
-    let pngLink = link[link.length - 1];
-    const godeLink = ["jpg", "gif", "png", "jpeg"];
+//   if (!users) return res.redirect("/auth/login");
+//   else {
+//     let link = req.body.photo.split(".");
+//     let pngLink = link[link.length - 1];
+//     const godeLink = ["jpg", "gif", "png", "jpeg"];
 
-    if (godeLink.includes(pngLink)) {
-      users.image_url = req.body.photo;
-      users.save();
-    } else {
-      return res.redirect(`/settings`);
-    }
+//     if (godeLink.includes(pngLink)) {
+//       users.image_url = req.body.photo;
+//       users.save();
+//     } else {
+//       return res.redirect(`/settings`);
+//     }
 
-    return res.redirect(`/profile/${users.user_id}`);
-  }
-});
+//     return res.redirect(`/profile/${users.user_id}`);
+//   }
+// });
 
 //algoRitm
 app.get("/auth/login", (req, res) => {
@@ -919,7 +918,20 @@ app.post("/settings/sumbit/", urlencodedParser, upload.single('avatarka'), async
       if(new_id){
         return res.send({ Success: "Пользователь с таким ID уже существует!" });
       }else{
-          if(users.user_id != req.body.id) users.user_id = req.body.id;
+          if(users.user_id != req.body.id){ 
+            Post.find({}).then(posts =>{
+              for(let i=0; i < posts.length; i++){
+                  for(let ic=0; ic<posts[i].comments.length; ic++){
+                      if(posts[i].comments[ic].user.secret_id == req.session.secret_id){
+                        posts[i].comments[ic].user.user_id = req.body.id;
+                      }
+                  }
+                  posts[i].save()
+              }
+          })
+
+            users.user_id = req.body.id;
+          }
       }
         }
       } 
@@ -933,6 +945,7 @@ app.post("/settings/sumbit/", urlencodedParser, upload.single('avatarka'), async
         });
       });
     }
+    
     await users.save();
     res.send({ Success: "Успешно" });
 
@@ -940,6 +953,36 @@ app.post("/settings/sumbit/", urlencodedParser, upload.single('avatarka'), async
     let filedata = req.file;
     console.log(filedata)
   });
+
+app.get('/delete/*', async (req, res) => {
+  if(!req.session.secret_id) return res.redirect('/auth/login');
+  else{
+    let url = req.url.slice(8)
+ 
+
+    let post_id = url.split('_')[0];
+    let content = url.split('_')[1].replace(/%20/g, " ");
+
+    console.log(content)
+
+    let post = await Post.findOne({
+      id: post_id
+    })
+
+    if(!post) return res.redirect('/')
+
+    for(let i=0; i<post.comments.length; i++){
+      if(post.comments[i].content == content){
+
+        post.comments.splice(i, 1);
+        post.save();
+
+        res.redirect(`/post/${post_id}#comments`)
+      }
+    }
+  }
+})
+
 
 app.post("/auth/regist", urlencodedParser, async (req, res) => {
   let login = req.body.login;
@@ -1007,6 +1050,25 @@ app.post("/auth/regist", urlencodedParser, async (req, res) => {
     });
 
     res.send({ Success: "Успешно" });
+  }
+});
+
+app.get("/minigames", async function (req, res) {
+  if (!req.session.secret_id) res.render("minigame.ejs", { req: req });
+  else {
+    const User = await user.findOne({
+      secret_id: req.session.secret_id,
+    });
+    try {
+      res.render("games/thelongdark.ejs", {
+        req: req,
+        image: User.image_url,
+        user_id: User.user_id,
+        user: User,
+      });
+    } catch {
+      res.redirect("/auth/login");
+    }
   }
 });
 
@@ -1108,6 +1170,7 @@ app.get("/thelongdark", async(req, res) => {
 app.get("/error/403", function (req, res) {
   res.sendFile(__dirname + "/errors/403.html");
 });
+
 
 app.get("*", function (req, res) {
   res.sendFile(__dirname + "/errors/404.html");

@@ -79,11 +79,109 @@
             </div>
           </header>
 
-          <div class="text-white"  id="chats">
-              <% for(var i=0; i < chats.length; i++) { %>
-                <div><a style="text-decoration:none; color:white;" href="/chat/<%= chats[i] %>"><img src="http://cybergamenews.ru/<%= ntu[i].image_url %>" width="32" height="32" class="rounded-circle"> <%= ntu[i].username %> </a></div>
+          <div class="text-white"  id="chats"> 
+
+            <div class="modal fade text-black" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content text-white bg-dark">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Новый чат</h5>
+                    <button type="button" class="text-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="form1"> 
+      
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Поиск пользователя</label>
+                        <input type="text" id="nickname" placeholder="Введите никнейм" name="title" class="form-control text-white bg-dark" id="recipient-name title" required="">
+                      </div>
+      
+ 
+    
+      
+                      <div class="modal-footer">                  
+ 
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg> Закрыть</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <button class="btn button text-white btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom:10px;">Начать чат</button>
+
+              <% if(chats.length < 1){ %> 
+                <h1 class="my-4 text-center">Нам очень жаль. Чатов нет :(</h1> 
+              <% }else{ %>
+                <% for(var i=0; i < chats.length; i++) { %>
+                  <div><a style="text-decoration:none; color:white;" href="/chat/<%= chats[i] %>"><img src="http://cybergamenews.ru/<%= ntu[i].image_url %>" width="32" height="32" class="rounded-circle"> <%= ntu[i].username %> </a> </div>
+                <%}%>
               <%}%>
           </div>
+
+
+          <div style="display:none;" id='myid'><%= req.session.secret_id %></div>
     </div>
+
+    <style>
+      .foundedUsers{
+        color:white;
+        text-decoration: none;
+      }
+    </style>
+
+
+    <script>
+      $('#nickname').on('keyup', function(){
+        $.ajax({
+          dataType: 'json',
+          url: `/findUser/${$(this).val()}`,
+          type: 'GET',
+          success : (response) => {
+
+            $('.foundedUsers').empty();
+            $('.foundUsersImg').css('display', 'none');
+
+            if(response.success.length != 0){
+              console.log(response.success.length)
+
+             
+
+
+              for(let i=0; i<response.success.length; i++){
+
+                if(document.getElementById('myid').textContent == response.success[i].secret_id) continue;
+                
+
+                let img = document.createElement('img');
+                img.width='32'
+                img.height='32'
+                img.alt='...'
+                img.classList.add('rounded-circle', 'foundUsersImg')
+                img.src=`http://cybergamenews.ru/${response.success[i].image_url}`;
+
+                document.getElementsByClassName('modal-body').item(0).appendChild(img);
+
+                let item = document.createElement('a');
+                item.classList.add('foundedUsers');
+                console.log(response.success[i].username);
+                item.textContent = response.success[i].username + '; '
+                item.href=`/chat/${document.getElementById('myid').textContent}_${response.success[i].secret_id}`
+
+                document.getElementsByClassName('modal-body').item(0).appendChild(item);
+              }
+            }         
+        }
+        })
+      })
+    </script>
+
+ 
 </body>
 </html>

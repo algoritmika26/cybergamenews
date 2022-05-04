@@ -12,7 +12,7 @@
 
       body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
-      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom:0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
       #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
       #input:focus { outline: none; }
       #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
@@ -21,42 +21,52 @@
       #messages > li { padding: 0.5rem 1rem; }
 
       .my, .his{
-        border-radius: 30%;
+        border-radius: 10%;
         margin-top:1vw;
         width: 150px;
         background-color: #333;
         word-break: break-all;
-      }
 
+      }
+      .ouruser{
+        font-size: 5vw;
+      }
       .time{
         color:gray;
       }
 
       .my{
-        margin-left:50vw;
+        margin-left:85vw;
       }
     </style>
   </head>
   <body class="bg-dark text-mont text-white">
     <div id="me" style="display:none;"><%= req.session.secret_id %></div>
-    <div id="ouruser"><%= anotheruser.username %></div>
+    <div id="another_sid" style="display:none;"><%= anotheruser.secret_id %></div>
+    <div id="ouruser">
+      <a href="/chats" style="color: #fff; margin-left: 10px; margin-top: 15px; position: absolute;" ><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+      </svg></a><a  href="/profile/<%= anotheruser.user_id %>" style="font-size: 1vw; text-decoration: none; color:white; margin-left: 50px; margin-top: 15px; position: absolute;"><%= anotheruser.username %></a></div>
+    <div style="display:none;" id="myname"><%= me.username %> </div>
     <div id="user1" style="display:none;"><%= user1_id %></div>
     <div id="user2" style="display:none;"><%= user2_id %></div>
-
-    <span id="dodo"></span>
-    <ul id="messages">
-      <% for(var i=0; i < history.length; i++) { %>
-        <% if(req.session.secret_id == history[i].author) {%>  
-          <li class="my"><%= history[i].msg %> <span class="time"><%= history[i].date %></span></li>
-        <%}else{%> 
-          <li class="his"><%= history[i].msg %> <span class="time"><%= history[i].date %></span></li>
+    <div class="blok contaner">
+      <p class="text-center">Этот и все другие чаты не защищенны сквозным шифрованием и просматриваются кем угодно.</p>
+      <ul id="messages">
+        <% for(var i=0; i < history.length; i++) { %>
+          <% if(req.session.secret_id == history[i].author) {%>  
+            <li class="my"><%= history[i].msg %> <span class="time"><%= history[i].date %></span></li>
+          <%}else{%> 
+            <li class="his"><%= history[i].msg %> <span class="time"><%= history[i].date %></span></li>
+          <%}%>
         <%}%>
-      <%}%>
-    </ul>
+      </ul>
+      <span id="dodo"></span>
+      <form id="form" action="">
+        <input id="input" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
 
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
 
 
 
@@ -69,17 +79,20 @@
       var input = document.getElementById('input');
 
 
-      $('#messages').on('keydown keyup', function(){
-        socket.emit('typing', document.getElementById('ouruser').textContent);
+      $('#input').on('keydown', function(){
+        socket.emit('typing', {my_name:document.getElementById('myname').textContent, another_name:document.getElementById('ouruser').textContent, me_sid: document.getElementById('me').textContent, another_sid: document.getElementById('another_sid').textContent});
       })
 
       socket.on('typing', name => {
-        if(name != document.getElementById('ouruser').textContent){
+
+        if(name.me_sid == document.getElementById('another_sid').textContent && name.another_sid == document.getElementById('me').textContent){
+        if(name.my_name != document.getElementById('myname').textContent){
           $("#dodo").empty();
-          var msg = $('<b>' + name + ' печатает сообщение...</b>');
+          var msg = $('<b>' + name.my_name + ' печатает сообщение...</b>');
           $("#dodo").last().append(msg);
           msg.fadeOut(3000, function() {$(this).remove()});
-        }
+        }}
+
       })
 
       form.addEventListener('submit', function(e) {
@@ -94,10 +107,29 @@
         if(msg.user1 == document.getElementById('user1').textContent && msg.user2 == document.getElementById('user2').textContent){
           var item = document.createElement('li');
           item.textContent = msg.msg;
-          item.classList.add('my');
+
+          if(document.getElementById('me').textContent == msg.author){
+            item.classList.add('my');
+          }else{
+            item.classList.add('his');
+          }
           
           var timer = document.createElement('span')
-          timer.textContent = ` ${new Date().getHours()}:${new Date().getMinutes()}`
+
+          let hours = new Date().getHours();
+          let minutes = new Date().getMinutes();
+
+          if(hours < 10){
+            hours = '0'+hours;
+          }
+
+          if(minutes < 10){
+            minutes = '0'+minutes;
+          }
+
+
+          timer.textContent = ` ${hours}:${minutes}`
+          timer.classList.add('time')
           item.appendChild(timer)
 
           messages.appendChild(item);
