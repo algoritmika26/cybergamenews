@@ -1060,7 +1060,7 @@ app.get("/minigames", async function (req, res) {
       secret_id: req.session.secret_id,
     });
     try {
-      res.render("games/thelongdark.ejs", {
+      res.render("minigame.ejs", {
         req: req,
         image: User.image_url,
         user_id: User.user_id,
